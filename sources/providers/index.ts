@@ -1,2 +1,2 @@
-export * from './song-provider';
+export * from './songs-provider';
 export * from './types';

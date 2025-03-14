@@ -23,7 +23,7 @@ export const useFetcher = <T>({ setter, fetcher }: UseFetcherArgs<T>) => {
     };
 
     doFetch();
-  }, [fetcher, setter, setIsLoading]);
+  }, []);
 
   return isLoading;
 };

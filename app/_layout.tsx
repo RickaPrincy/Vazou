@@ -3,12 +3,15 @@ import {
   MediaLibraryPermissionRequester,
   RequestPermissionWrapper,
 } from '@/permissions';
+import { CacheRestorerWrapper } from '@/components';
 
 const RootLayout = () => {
   return (
-    <RequestPermissionWrapper requesters={[MediaLibraryPermissionRequester]}>
-      <HomeScreen />
-    </RequestPermissionWrapper>
+    <CacheRestorerWrapper>
+      <RequestPermissionWrapper requesters={[MediaLibraryPermissionRequester]}>
+        <HomeScreen />
+      </RequestPermissionWrapper>
+    </CacheRestorerWrapper>
   );
 };
 

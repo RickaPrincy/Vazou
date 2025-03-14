@@ -5,6 +5,9 @@ export type Song = {
   filename: string;
 };
 
-export type Provider<T> = {
-  getList: () => Promise<T[]>;
+export type CachedProvider<T, Store extends object> = {
+  name: string;
+  storeKeyName: keyof Store;
+  get: () => Promise<T>;
+  clearCache: () => void;
 };

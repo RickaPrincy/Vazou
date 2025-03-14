@@ -6,7 +6,7 @@ export type SongsStore = {
   setSongs: (songs: Song[]) => void;
 };
 
-const SONGS_CACHE_NAME = 'SONGS_CACHE';
+export const SONGS_CACHE_NAME = 'SONGS_CACHE';
 export const useSongsStore = createPersistedStore<SongsStore>({
   name: SONGS_CACHE_NAME,
   state: set => ({

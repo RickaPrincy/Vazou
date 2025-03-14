@@ -2,9 +2,9 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { Playlist } from '@/components/playlist';
-import { songProvider } from '@/providers';
 import { useFetcher } from '@/hooks';
 import { useSongsStore } from '@/stores';
+import { songsProvider } from '@/providers';
 
 export const HomeScreen = () => {
   const songs = useSongsStore(state => state.songs);
@@ -12,7 +12,7 @@ export const HomeScreen = () => {
 
   useFetcher({
     setter: setSongs,
-    fetcher: async () => await songProvider.getList(),
+    fetcher: async () => await songsProvider.get(),
   });
 
   return (
