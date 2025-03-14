@@ -1,1 +1,1 @@
-export * from "./request-permission-wrapper" 
+export * from './request-permission-wrapper';

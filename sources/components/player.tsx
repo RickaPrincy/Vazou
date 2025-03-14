@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Audio } from "expo-av";
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Audio } from 'expo-av';
 
 interface PlayerProps {
   audioUri: string;
@@ -23,7 +23,9 @@ export const Player: React.FC<PlayerProps> = ({ audioUri }) => {
     if (sound) {
       await sound.unloadAsync();
     }
-    const { sound: newSound } = await Audio.Sound.createAsync({ uri: audioUri });
+    const { sound: newSound } = await Audio.Sound.createAsync({
+      uri: audioUri,
+    });
     setSound(newSound);
   };
 
@@ -42,7 +44,9 @@ export const Player: React.FC<PlayerProps> = ({ audioUri }) => {
     <View style={styles.container}>
       <Text style={styles.text}>En train de jouer...</Text>
       <TouchableOpacity style={styles.button} onPress={togglePlayPause}>
-        <Text style={styles.buttonText}>{isPlaying ? "⏸ Pause" : "▶️ Jouer"}</Text>
+        <Text style={styles.buttonText}>
+          {isPlaying ? '⏸ Pause' : '▶️ Jouer'}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -51,7 +55,7 @@ export const Player: React.FC<PlayerProps> = ({ audioUri }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    alignItems: "center",
+    alignItems: 'center',
   },
   text: {
     fontSize: 18,
@@ -59,11 +63,11 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 10,
-    backgroundColor: "#6200ea",
+    backgroundColor: '#6200ea',
     borderRadius: 5,
   },
   buttonText: {
-    color: "white",
+    color: 'white',
     fontSize: 16,
   },
 });

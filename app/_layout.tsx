@@ -1,10 +1,15 @@
-import { MediaLibraryPermissionRequester, RequestPermissionWrapper } from "@/permissions";
-import { HomeScreen } from "@/screens/home";
+import { HomeScreen } from '@/screens/home';
+import {
+  MediaLibraryPermissionRequester,
+  RequestPermissionWrapper,
+} from '@/permissions';
 
-export default function RootLayout() {
+const RootLayout = () => {
   return (
     <RequestPermissionWrapper requesters={[MediaLibraryPermissionRequester]}>
       <HomeScreen />
     </RequestPermissionWrapper>
-  )
-}
+  );
+};
+
+export default RootLayout;

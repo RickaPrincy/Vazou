@@ -1,33 +1,23 @@
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
-import * as MediaLibrary from "expo-media-library";
-
-import { Player, Playlist } from "@/components";
-
-const getAudioFiles = async () => {
-  const { status } = await MediaLibrary.requestPermissionsAsync();
-  if (status !== "granted") return [];
-  const media = await MediaLibrary.getAssetsAsync({ mediaType: "audio" });
-  return media.assets;
-};
+import { Playlist } from '@/components/playlist';
+import { songProvider } from '@/providers';
+import { useFetcher } from '@/hooks';
+import { useSongsStore } from '@/stores';
 
 export const HomeScreen = () => {
-  const [audioFiles, setAudioFiles] = useState<any[]>([]);
-  const [selectedAudio, setSelectedAudio] = useState<string | null>(null);
+  const songs = useSongsStore(state => state.songs);
+  const setSongs = useSongsStore(state => state.setSongs);
 
-  useEffect(() => {
-    const fetchAudioFiles = async () => {
-      const files = await getAudioFiles();
-      setAudioFiles(files);
-    };
-    fetchAudioFiles();
-  }, []);
+  useFetcher({
+    setter: setSongs,
+    fetcher: async () => await songProvider.getList(),
+  });
 
   return (
     <View style={styles.container}>
-      <Playlist audioFiles={audioFiles} onSelectAudio={setSelectedAudio} />
-      {selectedAudio && <Player audioUri={selectedAudio} />}
+      <Playlist songs={songs} />
     </View>
   );
 };
@@ -35,6 +25,6 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
 });

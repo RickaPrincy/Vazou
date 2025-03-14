@@ -1,5 +1,8 @@
-import { requestPermissionsAsync, PermissionStatus as MediaLibraryPermissionStatus } from "expo-media-library";
-import { PermissionRequester, PermissionStatus, RequesterName } from "../types";
+import {
+  requestPermissionsAsync,
+  PermissionStatus as MediaLibraryPermissionStatus,
+} from 'expo-media-library';
+import { PermissionRequester, PermissionStatus, RequesterName } from '../types';
 
 const mapStatus = (status: MediaLibraryPermissionStatus) => {
   switch (status) {
@@ -12,12 +15,12 @@ const mapStatus = (status: MediaLibraryPermissionStatus) => {
     default:
       throw PermissionStatus.DENIED;
   }
-}
+};
 
 export const MediaLibraryPermissionRequester: PermissionRequester = {
   name: RequesterName.MEDIA_LIBRARY,
   request: async () => {
     const { status } = await requestPermissionsAsync();
     return mapStatus(status);
-  }
-}
+  },
+};

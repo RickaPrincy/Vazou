@@ -1,0 +1,22 @@
+name: ci
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+  workflow_dispatch:
+
+jobs:
+  style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+
+      - run: rm package.json package-lock.json
+      - run: npm init -y
+      - run: npm install -D prettier
+      - run: npx prettier --check "src/**/*.{js,ts,tsx}" "./**/*.{yml,yaml}"
