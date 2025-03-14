@@ -1,5 +1,7 @@
-import { Stack } from "expo-router";
+import { HomeScreen } from "@/screens/home";
 
 export default function RootLayout() {
-  return <Stack />;
+  return (
+    <HomeScreen />
+  )
 }
