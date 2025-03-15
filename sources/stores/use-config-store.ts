@@ -1,9 +1,15 @@
-import {} from '@react-navigation/native';
 import { createPersistedStore } from './utils';
 
 export type Theme = 'light' | 'dark';
+export type User = {
+  avatarUri: any;
+  firstName: string;
+  lastName: string;
+};
+
 export type ConfigStore = {
   theme: Theme | null;
+  user: User;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
 };
@@ -17,5 +23,10 @@ export const useConfigStore = createPersistedStore<ConfigStore>({
       set({ theme: get().theme === 'dark' ? 'light' : 'dark' });
     },
     setTheme: theme => set({ theme }),
+    user: {
+      avatarUri: require('../assets/images/default-image.jpg'),
+      lastName: 'John Doe',
+      firstName: 'Villa billy',
+    },
   }),
 });

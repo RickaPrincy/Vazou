@@ -8,7 +8,7 @@ export const PALETTE_COLORS = {
   },
   dark: {
     text: '#ECEDEE',
-    background: '#2a2b2b',
+    background: '#0a0a0a',
     border: '#404040',
     primary: '#2ec4b6',
     secondary: '#cccfcf',

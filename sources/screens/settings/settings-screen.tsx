@@ -13,7 +13,7 @@ export const SettingsScreen = () => {
   const toggleTheme = useConfigStore(state => state.toggleTheme);
 
   return (
-    <Screen style={{ flex: 1 }}>
+    <Screen>
       <ScrollView>
         <SettingsSection title="Appearance">
           <SettingsItem
