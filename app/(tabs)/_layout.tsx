@@ -1,26 +1,34 @@
 import { View } from 'react-native';
 import { Tabs } from 'expo-router';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { Feather } from '@expo/vector-icons';
+
+import { usePalette } from '@/themes';
+import { Header } from '@/components/header';
 
 export default function TabLayout() {
+  const palette = usePalette();
+
   return (
     <View style={{ flex: 1 }}>
       <Tabs
         screenOptions={{
           tabBarStyle: {
-            paddingVertical: 15,
+            height: 55,
+            backgroundColor: palette.background,
+            borderColor: palette.border,
           },
-          headerShown: false,
-          tabBarActiveTintColor: '#6B3FA0',
-          tabBarInactiveTintColor: '#888',
+          tabBarActiveTintColor: palette.primary,
+          tabBarInactiveTintColor: palette.secondary,
+          header: props => <Header {...props} />,
         }}
       >
         <Tabs.Screen
           name="index"
           options={{
             title: 'Home',
+            headerShown: false,
             tabBarIcon: ({ color, size }: { color: string; size: number }) => (
-              <Ionicons name="home" size={size} color={color} />
+              <Feather name="home" size={size} color={color} />
             ),
           }}
         />
@@ -29,7 +37,16 @@ export default function TabLayout() {
           options={{
             title: 'Search',
             tabBarIcon: ({ color, size }: { color: string; size: number }) => (
-              <Ionicons name="search" size={size} color={color} />
+              <Feather name="search" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="settings"
+          options={{
+            title: 'Settings',
+            tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+              <Feather name="settings" size={size} color={color} />
             ),
           }}
         />

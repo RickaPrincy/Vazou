@@ -1,17 +1,20 @@
 import { FC } from 'react';
-import { useWindowDimensions, View, ViewProps } from 'react-native';
 import { usePalette } from '@/themes';
+import {
+  SafeAreaView,
+  SafeAreaViewProps,
+} from 'react-native-safe-area-context';
 
-export type ScreenProps = ViewProps;
-export const Screen: FC<ScreenProps> = ({ children, style = {} }) => {
-  const { width, height } = useWindowDimensions();
+export type ScreenProps = SafeAreaViewProps;
+export const Screen: FC<ScreenProps> = ({ children, style = {}, ...props }) => {
   const palette = usePalette();
 
   return (
-    <View
-      style={[{ width, height, backgroundColor: palette.background }, style]}
+    <SafeAreaView
+      style={[{ backgroundColor: palette.background }, style]}
+      {...props}
     >
       {children}
-    </View>
+    </SafeAreaView>
   );
 };
