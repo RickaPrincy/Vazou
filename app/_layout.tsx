@@ -1,4 +1,5 @@
-import { HomeScreen } from '@/screens/home';
+import { Stack } from 'expo-router';
+import { View } from 'react-native';
 import {
   MediaLibraryPermissionRequester,
   RequestPermissionWrapper,
@@ -7,11 +8,17 @@ import { CacheRestorerWrapper } from '@/components';
 
 const RootLayout = () => {
   return (
-    <CacheRestorerWrapper>
-      <RequestPermissionWrapper requesters={[MediaLibraryPermissionRequester]}>
-        <HomeScreen />
-      </RequestPermissionWrapper>
-    </CacheRestorerWrapper>
+    <View style={{ flex: 1 }}>
+      <CacheRestorerWrapper>
+        <RequestPermissionWrapper
+          requesters={[MediaLibraryPermissionRequester]}
+        >
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" />
+          </Stack>
+        </RequestPermissionWrapper>
+      </CacheRestorerWrapper>
+    </View>
   );
 };
 

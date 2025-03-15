@@ -1,12 +1,13 @@
 import { FC } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 import { Song } from '@/providers';
+import { ThemedText } from '../themed-text';
 
 export const PlayListItem: FC<{ song: Song }> = ({ song }) => {
   return (
     <View>
-      <Text>{song.filename}</Text>
+      <ThemedText>{song.filename}</ThemedText>
     </View>
   );
 };

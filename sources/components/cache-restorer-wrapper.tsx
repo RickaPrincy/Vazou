@@ -1,17 +1,19 @@
 import { useLoadingHandler } from '@/hooks';
-import { useSongsStore } from '@/stores';
+import { useConfigStore, useSongsStore } from '@/stores';
 import { FC, PropsWithChildren, useEffect } from 'react';
 
 export const CacheRestorerWrapper: FC<PropsWithChildren> = ({ children }) => {
   const initSongsStore = useSongsStore(state => state.init);
+  const initConfigStore = useConfigStore(state => state.init);
   const { isLoading, setIsLoading } = useLoadingHandler(true);
 
   useEffect(() => {
     try {
       initSongsStore();
+      initConfigStore();
     } catch (e) {
-      console.error('error', e);
       // TODO: error handler
+      console.error('error', e);
     } finally {
       setIsLoading(false);
     }

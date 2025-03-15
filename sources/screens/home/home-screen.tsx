@@ -1,14 +1,17 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { Button, useWindowDimensions } from 'react-native';
 
 import { Playlist } from '@/components/playlist';
+import { Screen } from '@/components';
 import { useFetcher } from '@/hooks';
-import { useSongsStore } from '@/stores';
+import { useConfigStore, useSongsStore } from '@/stores';
 import { songsProvider } from '@/providers';
 
 export const HomeScreen = () => {
+  const toggleTheme = useConfigStore(state => state.toggleTheme);
   const songs = useSongsStore(state => state.songs);
   const setSongs = useSongsStore(state => state.setSongs);
+  const { width, height } = useWindowDimensions();
 
   useFetcher({
     setter: setSongs,
@@ -16,15 +19,9 @@ export const HomeScreen = () => {
   });
 
   return (
-    <View style={styles.container}>
+    <Screen style={{ width, height: height }}>
+      <Button title="ToggleTheme" onPress={() => toggleTheme()} />
       <Playlist songs={songs} />
-    </View>
+    </Screen>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
