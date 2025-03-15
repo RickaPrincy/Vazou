@@ -3,6 +3,7 @@ export type Song = {
   uri: string;
   duration: number;
   filename: string;
+  index: number;
 };
 
 export type CachedProvider<T, Store extends object> = {

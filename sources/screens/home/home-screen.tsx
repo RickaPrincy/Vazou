@@ -12,11 +12,11 @@ import { useRouter } from 'expo-router';
 import { usePalette } from '@/themes';
 
 export const HomeScreen = () => {
+  const router = useRouter();
+  const palette = usePalette();
   const user = useConfigStore(state => state.user);
   const songs = useSongsStore(state => state.songs);
-  const router = useRouter();
   const setSongs = useSongsStore(state => state.setSongs);
-  const palette = usePalette();
 
   useFetcher({
     setter: setSongs,

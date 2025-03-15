@@ -8,7 +8,7 @@ import { CacheRestorerWrapper } from '@/components';
 
 const RootLayout = () => {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, position: "relative" }}>
       <CacheRestorerWrapper>
         <RequestPermissionWrapper
           requesters={[MediaLibraryPermissionRequester]}

@@ -1,7 +1,7 @@
 import * as MediaLibrary from 'expo-media-library';
 
 import { CachedProvider, Song } from './types';
-import { SONGS_CACHE_NAME, SongsStore } from '@/stores';
+import { SONGS_CACHE_NAME, SongsStore } from '@/stores/use-songs-store';
 import { configureCachedProvider } from './utils';
 
 export const songsProvider: CachedProvider<Song[], SongsStore> =
@@ -12,11 +12,12 @@ export const songsProvider: CachedProvider<Song[], SongsStore> =
       const response = await MediaLibrary.getAssetsAsync({
         mediaType: 'audio',
       });
-      return response.assets.map(asset => ({
+      return response.assets.map((asset, index) => ({
         id: asset.id,
         filename: asset.filename,
         duration: asset.duration,
         uri: asset.uri,
+        index
       }));
     },
   });

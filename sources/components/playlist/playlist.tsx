@@ -3,7 +3,7 @@ import { View, FlatList } from 'react-native';
 
 import { PlayListItem } from './playlist-item';
 import { Song } from '@/providers';
-import { createStyle } from '@/utils/styles';
+import { CurrentSongBanner } from '../player';
 
 export type PlaylistProps = {
   songs: Song[];
@@ -11,7 +11,7 @@ export type PlaylistProps = {
 
 export const Playlist: FC<PlaylistProps> = ({ songs }) => {
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1, padding: 10 }}>
       <FlatList
         data={songs}
         keyExtractor={song => song.id}
@@ -19,26 +19,7 @@ export const Playlist: FC<PlaylistProps> = ({ songs }) => {
           <PlayListItem key={song.id} song={song} />
         )}
       />
+      <CurrentSongBanner />
     </View>
   );
 };
-
-const styles = createStyle({
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  item: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-  },
-  text: {
-    fontSize: 16,
-  },
-});
