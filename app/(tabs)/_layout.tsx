@@ -33,6 +33,15 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
+          name="playlist/index"
+          options={{
+            title: 'PlayList',
+            tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+              <Feather name="list" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
           name="search"
           options={{
             title: 'Search',

@@ -3,9 +3,9 @@ import { ActivityIndicator, Image, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-import { Playlist } from '@/components/playlist';
 import { IconButton } from '@/components/buttons';
 import { ThemedText, FlexView, Screen } from '@/components';
+import { SongList } from '@/components/song-list';
 import { useStateFetcher } from '@/hooks';
 import { useConfigStore } from '@/stores';
 import { songsProvider } from '@/providers';
@@ -66,7 +66,7 @@ export const HomeScreen = () => {
           />
         </IconButton>
       </FlexView>
-      <Playlist songs={songs} />
+      <SongList songs={songs} />
     </Screen>
   );
 };

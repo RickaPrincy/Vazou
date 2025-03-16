@@ -15,9 +15,7 @@ const PLAY_LIST_ITEM_STYLE: ViewStyle = {
   justifyContent: 'space-between',
 };
 
-export const PlayListItem: FC<{ song: Song; style?: ViewStyle }> = ({
-  song,
-}) => {
+export const SongItem: FC<{ song: Song; style?: ViewStyle }> = ({ song }) => {
   const palette = usePalette();
   const {
     setSong: setPlayingSong,

@@ -8,7 +8,8 @@ export type Song = {
 export type PlayList = {
   id: string;
   name: string;
+  songs: Song[];
+  description?: string;
   imageUri?: string;
   color?: string;
-  songs: Song[];
 };

@@ -1,23 +1,21 @@
 import { FC } from 'react';
 import { View, FlatList } from 'react-native';
 
-import { PlayListItem } from './playlist-item';
-import { Song } from '@/providers';
+import { Song } from '@/stores';
+import { SongItem } from './song-item';
 import { CurrentSongBanner } from '../player';
 
-export type PlaylistProps = {
+export type SongListProps = {
   songs: Song[];
 };
 
-export const Playlist: FC<PlaylistProps> = ({ songs }) => {
+export const SongList: FC<SongListProps> = ({ songs }) => {
   return (
     <View style={{ flex: 1, padding: 10 }}>
       <FlatList
         data={songs}
         keyExtractor={song => song.id}
-        renderItem={({ item: song }) => (
-          <PlayListItem key={song.id} song={song} />
-        )}
+        renderItem={({ item: song }) => <SongItem key={song.id} song={song} />}
       />
       <CurrentSongBanner />
     </View>

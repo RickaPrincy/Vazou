@@ -6,17 +6,18 @@ import { CLICK_BUTTON_DEBOUNCE_MS } from '@/utils/debounce';
 
 export type PlayListStore = {
   playlists: PlayList[];
-  getPlayList: DebouncedFunction<(id: string) => Promise<PlayList>>;
-  addPlayList: DebouncedFunction<(playList: PlayList) => Promise<void>>;
-  deletePlaylist: DebouncedFunction<(id: string) => Promise<void>>;
-  updatePlayList: DebouncedFunction<(playList: PlayList) => Promise<void>>;
+  getPlayList: (id: string) => PlayList;
+  addPlayList: DebouncedFunction<(playList: PlayList) => void>;
+  deletePlaylist: DebouncedFunction<(id: string) => void>;
+  updatePlayList: DebouncedFunction<(playList: PlayList) => void>;
   addSongsToPlayList: DebouncedFunction<
-    (playListId: string, songs: Song[]) => Promise<void>
+    (playListId: string, songs: Song[]) => void
   >;
   deleteSongsToPlayList: DebouncedFunction<
-    (playListId: string, ids: string[]) => Promise<void>
+    (playListId: string, ids: string[]) => void
   >;
 };
+
 const PLAY_LIST_CACHE_NAME = 'PLAY-LIST-CACHE';
 export const usePlayListStore = createPersistedStore<PlayListStore>({
   name: PLAY_LIST_CACHE_NAME,
@@ -24,20 +25,16 @@ export const usePlayListStore = createPersistedStore<PlayListStore>({
     playlists: [],
     currentPlayList: null,
 
-    getPlayList: debounce(
-      async (id: string) =>
-        get().playlists.find(playlist => playlist.id === id)!,
-      CLICK_BUTTON_DEBOUNCE_MS
-    ),
+    getPlayList: (id: string) =>
+      get().playlists.find(playlist => playlist.id === id)!,
 
-    addPlayList: debounce(
-      async (playlist: PlayList) =>
-        set({ playlists: [...get().playlists, playlist] }),
-      CLICK_BUTTON_DEBOUNCE_MS
-    ),
+    addPlayList: debounce((playlist: PlayList) => {
+      console.log('Hello from debounced');
+      set({ playlists: [...get().playlists, playlist] });
+    }, CLICK_BUTTON_DEBOUNCE_MS),
 
     deletePlaylist: debounce(
-      async (id: string) =>
+      (id: string) =>
         set({
           playlists: get().playlists.filter(playlist => playlist.id !== id),
         }),
@@ -45,7 +42,7 @@ export const usePlayListStore = createPersistedStore<PlayListStore>({
     ),
 
     updatePlayList: debounce(
-      async (updated: PlayList) =>
+      (updated: PlayList) =>
         set({
           playlists: get().playlists.map(playlist =>
             playlist.id === updated.id ? updated : playlist
@@ -54,18 +51,17 @@ export const usePlayListStore = createPersistedStore<PlayListStore>({
       CLICK_BUTTON_DEBOUNCE_MS
     ),
 
-    addSongsToPlayList: debounce(async (id: string, songs: Song[]) => {
-      const playList = await get().getPlayList(id)!;
+    addSongsToPlayList: debounce((id: string, songs: Song[]) => {
+      const playList = get().getPlayList(id)!;
       playList.songs = [...playList.songs, ...songs];
-
-      await get().updatePlayList(playList);
+      get().updatePlayList(playList);
     }, CLICK_BUTTON_DEBOUNCE_MS),
 
-    deleteSongsToPlayList: debounce(async (id: string, ids: string[]) => {
-      const playList = await get().getPlayList(id)!;
+    deleteSongsToPlayList: debounce((id: string, ids: string[]) => {
+      const playList = get().getPlayList(id)!;
       playList.songs = playList.songs.filter(song => !ids.includes(song.id))!;
 
-      await get().updatePlayList(playList);
+      get().updatePlayList(playList);
     }, CLICK_BUTTON_DEBOUNCE_MS),
   }),
 });
