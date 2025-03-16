@@ -4,7 +4,6 @@ import { Feather } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 
 import { usePalette } from '@/themes';
-import { Header } from '@/components/header';
 import { useEffect } from 'react';
 
 const TabLayout = () => {
@@ -34,22 +33,12 @@ const TabLayout = () => {
             backgroundColor: palette.card,
             borderColor: palette.card,
           },
+          headerShown: false,
           tabBarIconStyle: { marginTop: 5 },
           tabBarActiveTintColor: palette.primary,
           tabBarInactiveTintColor: palette.secondary,
-          header: props => <Header {...props} />,
         }}
       >
-        <Tabs.Screen
-          name="index"
-          options={{
-            title: 'Home',
-            headerShown: false,
-            tabBarIcon: ({ color, size }: { color: string; size: number }) => (
-              <Feather name="home" size={size} color={color} />
-            ),
-          }}
-        />
         <Tabs.Screen
           name="playlist/index"
           options={{
@@ -65,6 +54,25 @@ const TabLayout = () => {
             title: 'Search',
             tabBarIcon: ({ color, size }: { color: string; size: number }) => (
               <Feather name="search" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: 'Home',
+            headerShown: false,
+            tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+              <Feather name="home" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="url"
+          options={{
+            title: 'Notifications',
+            tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+              <Feather name="bell" size={size} color={color} />
             ),
           }}
         />

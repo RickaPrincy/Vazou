@@ -11,7 +11,10 @@ export const Screen: FC<ScreenProps> = ({ children, style = {}, ...props }) => {
 
   return (
     <SafeAreaView
-      style={[{ flex: 1, backgroundColor: palette.background }, style]}
+      style={[
+        { flex: 1, padding: 20, backgroundColor: palette.background },
+        style,
+      ]}
       {...props}
     >
       {children}

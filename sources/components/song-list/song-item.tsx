@@ -13,8 +13,6 @@ const PLAY_LIST_ITEM_STYLE: ViewStyle = {
   height: 80,
   paddingHorizontal: 20,
   paddingVertical: 15,
-  marginLeft: 5,
-  marginRight: 5,
   marginVertical: 5,
   borderRadius: 15,
   justifyContent: 'space-between',
@@ -63,7 +61,7 @@ export const SongItem: FC<{ song: Song; style?: ViewStyle }> = ({ song }) => {
               color: isCurrentSong ? palette.primary : palette.secondary,
             }}
           >
-            {trimFilename(song.filename)}
+            {trimFilename(song.filename, 22)}
           </ThemedText>
         </View>
       </FlexView>

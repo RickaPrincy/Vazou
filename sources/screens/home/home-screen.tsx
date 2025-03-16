@@ -15,9 +15,9 @@ import { useStateFetcher } from '@/hooks';
 import { songsProvider } from '@/providers';
 import { usePalette } from '@/themes';
 import { useConfigStore, useSearchSongStore } from '@/stores';
-import { NOOP_FN } from '@/utils/noop-fn';
 import { filterSongs } from '@/utils/filter-songs';
 import { homeScreenStyles as styles } from './styles';
+import { NOOP_FN } from '@/utils/noop-fn';
 
 export const HomeScreen = () => {
   const palette = usePalette();
@@ -39,7 +39,7 @@ export const HomeScreen = () => {
   return (
     <Screen>
       <FlexView style={styles.headerContainer}>
-        <View>
+        <View style={{ marginBottom: 20 }}>
           <ThemedText style={{ fontSize: 10, color: palette.secondary }}>
             Welcome to
           </ThemedText>

@@ -11,7 +11,7 @@ export type SongListProps = {
 
 export const SongList: FC<SongListProps> = ({ songs }) => {
   return (
-    <View style={{ flex: 1, padding: 10 }}>
+    <View style={{ flex: 1 }}>
       <FlatList
         data={songs}
         keyExtractor={song => song.id}

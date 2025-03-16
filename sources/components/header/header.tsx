@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { View, ViewStyle } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs';
+import { useRouter } from 'expo-router';
 
 import { ThemedText } from '@/components';
 import { FlexView } from '../flex-view';
@@ -9,15 +9,14 @@ import { IconButton } from '../buttons';
 import { usePalette } from '@/themes';
 
 const HEADER_STYLE: ViewStyle = {
-  borderBottomWidth: 1,
   flexDirection: 'row',
   justifyContent: 'space-between',
   paddingHorizontal: 20,
-  height: 55,
 };
 
-export const Header: FC<BottomTabHeaderProps> = ({ route, navigation }) => {
+export const Header: FC<{ title: string }> = ({ title }) => {
   const palette = usePalette();
+  const router = useRouter();
 
   return (
     <FlexView
@@ -29,8 +28,8 @@ export const Header: FC<BottomTabHeaderProps> = ({ route, navigation }) => {
         },
       ]}
     >
-      {navigation.canGoBack() ? (
-        <IconButton onPress={() => navigation.goBack()}>
+      {router.canGoBack() ? (
+        <IconButton onPress={() => router.back()}>
           <Feather
             name="arrow-left"
             color={palette.text}
@@ -41,7 +40,11 @@ export const Header: FC<BottomTabHeaderProps> = ({ route, navigation }) => {
         <View style={{ width: 10 }} />
       )}
 
-      <ThemedText style={{ color: palette.text }}>{route.name}</ThemedText>
+      <ThemedText
+        style={{ fontSize: 16, fontWeight: 'bold', color: palette.text }}
+      >
+        {title}
+      </ThemedText>
       <View style={{ width: 10 }} />
     </FlexView>
   );
