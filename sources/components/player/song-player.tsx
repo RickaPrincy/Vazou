@@ -1,10 +1,9 @@
+import { usePlayer } from '@/stores';
 import { Audio } from 'expo-av';
 import { useEffect, useState } from 'react';
 
-import { usePlayer } from '@/stores';
-
 export const SongPlayer = () => {
-  const { currentSong, isPlaying } = usePlayer();
+  const { song: currentSong, playing: isPlaying } = usePlayer();
   const [loadedSong, setLoadedSong] = useState<Audio.Sound | null>(null);
   const currentSongUri = currentSong?.uri;
 

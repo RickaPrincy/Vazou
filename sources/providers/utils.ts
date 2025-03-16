@@ -1,31 +1,35 @@
-import { RawData } from '@/stores/utils';
 import { CachedProvider } from './types';
 import { StorageUtils } from '@/utils/storage';
 
-type ConfigureCachedProviderArgs<T, Store extends object> = Omit<
-  CachedProvider<T, Store>,
-  'clearCache'
+type ConfigureCachedProviderArgs<T> = Omit<
+  CachedProvider<T>,
+  'clearCache' | 'getFromSource'
 >;
 
-export const configureCachedProvider = <T, Store extends object>({
+export const configureCachedProvider = <T>({
   get,
   name,
-  storeKeyName,
-}: ConfigureCachedProviderArgs<T, Store>): CachedProvider<T, Store> => {
+}: ConfigureCachedProviderArgs<T>): CachedProvider<T> => {
+  const getFromSource = async () => {
+    const newData = await get();
+    await StorageUtils.setItem(name, newData);
+    return newData;
+  };
+
   return {
     name,
-    storeKeyName,
     get: async () => {
-      const cachedData = await StorageUtils.get<RawData<Store>>(name);
+      const cachedData = await StorageUtils.get<T>(name);
 
-      if (cachedData && cachedData.state[storeKeyName]) {
-        return cachedData.state[storeKeyName] as T;
+      if (cachedData) {
+        return cachedData;
       }
 
-      return get();
+      return getFromSource();
     },
     clearCache: async () => {
       return StorageUtils.remove(name);
     },
+    getFromSource,
   };
 };

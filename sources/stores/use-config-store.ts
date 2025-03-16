@@ -1,3 +1,6 @@
+import debounce from 'debounce';
+
+import { CLICK_BUTTON_DEBOUNCE_MS } from '@/utils/debounce';
 import { createPersistedStore } from './utils';
 
 export type Theme = 'light' | 'dark';
@@ -19,10 +22,10 @@ export const useConfigStore = createPersistedStore<ConfigStore>({
   name: CONFIG_STORE_NAME,
   state: (set, get) => ({
     theme: null,
-    toggleTheme: () => {
+    toggleTheme: debounce(() => {
       set({ theme: get().theme === 'dark' ? 'light' : 'dark' });
-    },
-    setTheme: theme => set({ theme }),
+    }, CLICK_BUTTON_DEBOUNCE_MS),
+    setTheme: debounce(theme => set({ theme }), CLICK_BUTTON_DEBOUNCE_MS),
     user: {
       avatarUri: require('../assets/images/default-image.jpg'),
       lastName: 'John Doe',

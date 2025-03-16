@@ -1,15 +1,23 @@
-import { usePalette } from '@/themes';
 import { View } from 'react-native';
-import { FlexView } from '../flex-view';
-import { usePlayer } from '@/stores';
-import { IconButton } from '../buttons';
 import { Feather, Ionicons } from '@expo/vector-icons';
+
+import { FlexView } from '../flex-view';
+import { IconButton } from '../buttons';
 import { ThemedText } from '../themed-text';
+import { usePalette } from '@/themes';
 import { trimFilename } from '@/utils/trim-filename';
+import { usePlayer } from '@/stores';
 
 export const CurrentSongBanner = () => {
   const palette = usePalette();
-  const { isPlaying, next, stop, prev, toggle, currentSong } = usePlayer();
+  const {
+    playing: isPlaying,
+    next,
+    stop,
+    prev,
+    toggle,
+    song: currentSong,
+  } = usePlayer();
 
   if (!currentSong) {
     return null;

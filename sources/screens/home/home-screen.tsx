@@ -1,27 +1,29 @@
 import React from 'react';
-import { Image, View } from 'react-native';
+import { ActivityIndicator, Image, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 import { Playlist } from '@/components/playlist';
 import { IconButton } from '@/components/buttons';
 import { ThemedText, FlexView, Screen } from '@/components';
-import { useFetcher } from '@/hooks';
-import { useConfigStore, useSongsStore } from '@/stores';
+import { useStateFetcher } from '@/hooks';
+import { useConfigStore } from '@/stores';
 import { songsProvider } from '@/providers';
-import { useRouter } from 'expo-router';
 import { usePalette } from '@/themes';
 
 export const HomeScreen = () => {
   const router = useRouter();
   const palette = usePalette();
   const user = useConfigStore(state => state.user);
-  const songs = useSongsStore(state => state.songs);
-  const setSongs = useSongsStore(state => state.setSongs);
 
-  useFetcher({
-    setter: setSongs,
+  const { data: songs, isLoading } = useStateFetcher({
+    defaultValue: [],
     fetcher: async () => await songsProvider.get(),
   });
+
+  if (isLoading) {
+    <ActivityIndicator color={palette.primary} />;
+  }
 
   return (
     <Screen>

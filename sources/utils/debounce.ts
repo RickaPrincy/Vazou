@@ -1,1 +1,1 @@
-export const SONG_STATE_DEBOUNCE = 300;
+export const CLICK_BUTTON_DEBOUNCE_MS = 300;

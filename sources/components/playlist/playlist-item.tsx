@@ -1,13 +1,12 @@
 import { FC } from 'react';
 import { ViewStyle } from 'react-native';
 
-import { Song } from '@/providers';
 import { ThemedText } from '../themed-text';
 import { FlexView } from '../flex-view';
 import { Feather } from '@expo/vector-icons';
 import { IconButton } from '../buttons';
 import { usePalette } from '@/themes';
-import { usePlayer } from '@/stores';
+import { Song, usePlayer } from '@/stores';
 
 const PLAY_LIST_ITEM_STYLE: ViewStyle = {
   borderBottomWidth: 1,
@@ -20,7 +19,12 @@ export const PlayListItem: FC<{ song: Song; style?: ViewStyle }> = ({
   song,
 }) => {
   const palette = usePalette();
-  const { setPlayingSong, isPlaying, currentSong, toggle } = usePlayer();
+  const {
+    setSong: setPlayingSong,
+    playing: isPlaying,
+    song: currentSong,
+    toggle,
+  } = usePlayer();
   const isCurrentSong = currentSong?.id === song.id;
 
   const handlePlayPauseButton = () => {
