@@ -4,11 +4,11 @@ import {
   MediaLibraryPermissionRequester,
   RequestPermissionWrapper,
 } from '@/permissions';
-import { CacheRestorerWrapper } from '@/components';
+import { CacheRestorerWrapper, SongPlayer } from '@/components';
 
 const RootLayout = () => {
   return (
-    <View style={{ flex: 1, position: "relative" }}>
+    <View style={{ flex: 1, position: 'relative' }}>
       <CacheRestorerWrapper>
         <RequestPermissionWrapper
           requesters={[MediaLibraryPermissionRequester]}
@@ -16,6 +16,7 @@ const RootLayout = () => {
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="(tabs)" />
           </Stack>
+          <SongPlayer />
         </RequestPermissionWrapper>
       </CacheRestorerWrapper>
     </View>

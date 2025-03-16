@@ -17,7 +17,7 @@ export const songsProvider: CachedProvider<Song[], SongsStore> =
         filename: asset.filename,
         duration: asset.duration,
         uri: asset.uri,
-        index
+        index,
       }));
     },
   });

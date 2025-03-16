@@ -11,7 +11,7 @@ export const useFetcher = <T>({ setter, fetcher }: UseFetcherArgs<T>) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const doFetch = async () => {
+    (async () => {
       try {
         setter(await fetcher());
       } catch (e) {
@@ -20,9 +20,7 @@ export const useFetcher = <T>({ setter, fetcher }: UseFetcherArgs<T>) => {
       } finally {
         setIsLoading(false);
       }
-    };
-
-    doFetch();
+    })();
   }, []);
 
   return isLoading;
