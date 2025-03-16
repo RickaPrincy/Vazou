@@ -1,22 +1,28 @@
 import { FC } from 'react';
-import { ViewStyle } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 
 import { ThemedText } from '../themed-text';
 import { FlexView } from '../flex-view';
 import { Feather } from '@expo/vector-icons';
 import { IconButton } from '../buttons';
-import { usePalette } from '@/themes';
+import { usePalette, useReversePalette } from '@/themes';
 import { Song, usePlayer } from '@/stores';
+import { trimFilename } from '@/utils/trim-filename';
 
 const PLAY_LIST_ITEM_STYLE: ViewStyle = {
-  borderBottomWidth: 1,
+  height: 80,
   paddingHorizontal: 20,
   paddingVertical: 15,
+  marginLeft: 5,
+  marginRight: 5,
+  marginVertical: 5,
+  borderRadius: 15,
   justifyContent: 'space-between',
 };
 
 export const SongItem: FC<{ song: Song; style?: ViewStyle }> = ({ song }) => {
   const palette = usePalette();
+  const reversePalette = useReversePalette();
   const {
     setSong: setPlayingSong,
     playing: isPlaying,
@@ -35,23 +41,31 @@ export const SongItem: FC<{ song: Song; style?: ViewStyle }> = ({ song }) => {
   };
 
   return (
-    <FlexView
-      style={[PLAY_LIST_ITEM_STYLE, { borderBottomColor: palette.border }]}
-    >
+    <FlexView style={[PLAY_LIST_ITEM_STYLE, { backgroundColor: palette.card }]}>
       <FlexView style={{ justifyContent: 'flex-start', gap: 20 }}>
-        <Feather
-          name="music"
-          color={palette.primary}
-          style={{ fontSize: 24 }}
-        />
-        <ThemedText
+        <FlexView
           style={{
-            maxWidth: 210,
-            color: isCurrentSong ? palette.primary : palette.secondary,
+            borderRadius: 8,
+            padding: 10,
+            backgroundColor: reversePalette.background,
           }}
         >
-          {song.filename}
-        </ThemedText>
+          <Feather
+            name="music"
+            color={palette.primary}
+            style={{ fontSize: 24 }}
+          />
+        </FlexView>
+        <View>
+          <ThemedText
+            style={{
+              maxWidth: 210,
+              color: isCurrentSong ? palette.primary : palette.secondary,
+            }}
+          >
+            {trimFilename(song.filename)}
+          </ThemedText>
+        </View>
       </FlexView>
       <IconButton onPress={handlePlayPauseButton}>
         {isCurrentSong && isPlaying ? (

@@ -1,20 +1,29 @@
 import React from 'react';
-import { ActivityIndicator, Image, View } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import {
+  ActivityIndicator,
+  View,
+  Image,
+  Pressable,
+  TextInput,
+} from 'react-native';
+import { Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-import { IconButton } from '@/components/buttons';
 import { ThemedText, FlexView, Screen } from '@/components';
+import { IconButton } from '@/components/buttons';
 import { SongList } from '@/components/song-list';
 import { useStateFetcher } from '@/hooks';
-import { useConfigStore } from '@/stores';
 import { songsProvider } from '@/providers';
 import { usePalette } from '@/themes';
+import { useConfigStore, useSearchSongStore } from '@/stores';
+import { NOOP_FN } from '@/utils/noop-fn';
+import { filterSongs } from '@/utils/filter-songs';
+import { homeScreenStyles as styles } from './styles';
 
 export const HomeScreen = () => {
-  const router = useRouter();
   const palette = usePalette();
   const user = useConfigStore(state => state.user);
+  const { setValue: setSearchSongValue, value: searchSongValue } =
+    useSearchSongStore();
 
   const { data: songs, isLoading } = useStateFetcher({
     defaultValue: [],
@@ -22,51 +31,74 @@ export const HomeScreen = () => {
   });
 
   if (isLoading) {
-    <ActivityIndicator color={palette.primary} />;
+    return <ActivityIndicator color={palette.primary} />;
   }
+
+  const filteredSongs = filterSongs(searchSongValue, songs);
 
   return (
     <Screen>
+      <FlexView style={styles.headerContainer}>
+        <View>
+          <ThemedText style={{ fontSize: 10, color: palette.secondary }}>
+            Welcome to
+          </ThemedText>
+          <ThemedText
+            style={{
+              fontSize: 18,
+              color: palette.secondary,
+              fontWeight: 'bold',
+            }}
+          >
+            Vazou Music
+          </ThemedText>
+        </View>
+        <Pressable onPress={NOOP_FN}>
+          <FlexView
+            style={[styles.avatarContainer, { backgroundColor: palette.text }]}
+          >
+            <Image
+              source={user.avatarUri}
+              style={[styles.avatarImage, { borderColor: palette.card }]}
+            />
+          </FlexView>
+        </Pressable>
+      </FlexView>
+
       <FlexView
-        style={{
-          paddingVertical: 15,
-          paddingHorizontal: 20,
-          justifyContent: 'space-between',
-        }}
+        style={[styles.searchContainer, { backgroundColor: palette.card }]}
       >
         <FlexView style={{ gap: 10 }}>
-          <Image
-            source={user.avatarUri}
-            alt={user.firstName}
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: 50,
-            }}
-          />
-          <View>
-            <ThemedText
-              style={{
-                fontWeight: 'bold',
-                fontSize: 16,
-                color: palette.secondary,
-              }}
-            >
-              {user.firstName}
-            </ThemedText>
-            <ThemedText style={{ fontSize: 16, color: palette.secondary }}>
-              {user.lastName}
-            </ThemedText>
-          </View>
-        </FlexView>
-        <IconButton onPress={() => router.push('/settings')}>
           <Feather
-            name="settings"
+            name="search"
             style={{ fontSize: 24, color: palette.secondary }}
           />
-        </IconButton>
+          <TextInput
+            value={searchSongValue}
+            placeholderTextColor="gray"
+            placeholder="Nom de la playlist"
+            style={{ color: palette.text }}
+            onChangeText={setSearchSongValue}
+          />
+        </FlexView>
+        {searchSongValue ? (
+          <IconButton onPress={() => setSearchSongValue('')}>
+            <MaterialIcons
+              name="clear"
+              style={{ color: palette.secondary, fontSize: 24 }}
+            />
+          </IconButton>
+        ) : (
+          <IconButton>
+            <Ionicons
+              name="filter"
+              style={{ color: palette.secondary, fontSize: 24 }}
+            />
+          </IconButton>
+        )}
       </FlexView>
-      <SongList songs={songs} />
+
+      <SongList songs={filteredSongs} />
     </Screen>
   );
 };

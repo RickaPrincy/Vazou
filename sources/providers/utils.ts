@@ -28,7 +28,7 @@ export const configureCachedProvider = <T>({
       return getFromSource();
     },
     clearCache: async () => {
-      return StorageUtils.remove(name);
+      return StorageUtils.removeItem(name);
     },
     getFromSource,
   };

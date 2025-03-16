@@ -11,7 +11,7 @@ export const StorageUtils = {
 
     return parseStringifiedObj<T>(cachedData);
   },
-  async remove(key: string) {
+  async removeItem(key: string) {
     await AsyncStorage.removeItem(key);
   },
 

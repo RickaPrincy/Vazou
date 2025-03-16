@@ -1,22 +1,40 @@
 import { View } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
+import { Audio } from 'expo-av';
 
 import { usePalette } from '@/themes';
 import { Header } from '@/components/header';
+import { useEffect } from 'react';
 
-export default function TabLayout() {
+const TabLayout = () => {
   const palette = usePalette();
 
+  useEffect(() => {
+    (async () => {
+      await Audio.setAudioModeAsync({
+        playsInSilentModeIOS: true,
+        allowsRecordingIOS: false,
+        shouldDuckAndroid: true,
+        staysActiveInBackground: true,
+      });
+    })();
+  }, []);
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: palette.background }}>
       <Tabs
         screenOptions={{
           tabBarStyle: {
-            height: 55,
-            backgroundColor: palette.background,
-            borderColor: palette.border,
+            height: 65,
+            marginLeft: 8,
+            marginRight: 8,
+            borderRadius: 20,
+            marginBottom: 8,
+            backgroundColor: palette.card,
+            borderColor: palette.card,
           },
+          tabBarIconStyle: { marginTop: 5 },
           tabBarActiveTintColor: palette.primary,
           tabBarInactiveTintColor: palette.secondary,
           header: props => <Header {...props} />,
@@ -62,4 +80,6 @@ export default function TabLayout() {
       </Tabs>
     </View>
   );
-}
+};
+
+export default TabLayout;

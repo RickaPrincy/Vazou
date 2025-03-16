@@ -13,7 +13,11 @@ const RootLayout = () => {
         <RequestPermissionWrapper
           requesters={[MediaLibraryPermissionRequester]}
         >
-          <Stack screenOptions={{ headerShown: false }}>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
             <Stack.Screen name="(tabs)" />
           </Stack>
           <SongPlayer />

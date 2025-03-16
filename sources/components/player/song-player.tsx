@@ -19,7 +19,7 @@ export const SongPlayer = () => {
 
       const { sound } = await Audio.Sound.createAsync(
         { uri: currentSongUri },
-        { shouldPlay: true }
+        { shouldPlay: isPlaying }
       );
       setLoadedSong(sound);
     })();

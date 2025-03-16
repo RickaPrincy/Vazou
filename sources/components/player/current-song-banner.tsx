@@ -23,27 +23,34 @@ export const CurrentSongBanner = () => {
     return null;
   }
 
-  const trimedFilename = trimFilename(currentSong.filename);
+  const trimedFilename = trimFilename(currentSong.filename, 40);
 
   return (
     <View
       style={{
-        height: 120,
-        paddingVertical: 20,
-        paddingHorizontal: 15,
-        backgroundColor: palette.background,
+        height: 70,
+        borderRadius: 15,
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        backgroundColor: palette.card,
       }}
     >
-      <ThemedText
-        style={{ textAlign: 'center', fontSize: 16, marginBottom: 10 }}
-      >
-        {trimedFilename +
-          (trimedFilename.length !== currentSong.filename.length ? '...' : '')}
-      </ThemedText>
-      <FlexView style={{ gap: 20, backgroundColor: palette.background }}>
+      <FlexView>
+        <ThemedText
+          style={{
+            textAlign: 'center',
+            fontSize: 12,
+            marginTop: 5,
+            marginBottom: 10,
+          }}
+        >
+          {trimedFilename}
+        </ThemedText>
+      </FlexView>
+      <FlexView style={{ gap: 25, backgroundColor: palette.card }}>
         <IconButton onPress={prev}>
           <Feather
-            style={{ fontSize: 35, color: palette.secondary }}
+            style={{ fontSize: 25, color: palette.secondary }}
             name="skip-back"
           />
         </IconButton>
@@ -51,25 +58,25 @@ export const CurrentSongBanner = () => {
           {isPlaying ? (
             <Feather
               name="pause"
-              style={{ fontSize: 35, color: palette.secondary }}
+              style={{ fontSize: 25, color: palette.secondary }}
             />
           ) : (
             <Feather
-              style={{ fontSize: 35, color: palette.secondary }}
+              style={{ fontSize: 25, color: palette.secondary }}
               name="play"
             />
           )}
         </IconButton>
         <IconButton onPress={next}>
           <Feather
-            style={{ fontSize: 35, color: palette.secondary }}
+            style={{ fontSize: 25, color: palette.secondary }}
             name="skip-forward"
           />
         </IconButton>
         <IconButton onPress={stop}>
           <Ionicons
             name="stop-outline"
-            style={{ fontSize: 35, color: palette.secondary }}
+            style={{ fontSize: 25, color: palette.secondary }}
           />
         </IconButton>
       </FlexView>

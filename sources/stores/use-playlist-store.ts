@@ -29,7 +29,6 @@ export const usePlayListStore = createPersistedStore<PlayListStore>({
       get().playlists.find(playlist => playlist.id === id)!,
 
     addPlayList: debounce((playlist: PlayList) => {
-      console.log('Hello from debounced');
       set({ playlists: [...get().playlists, playlist] });
     }, CLICK_BUTTON_DEBOUNCE_MS),
 
