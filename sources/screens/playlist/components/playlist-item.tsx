@@ -1,15 +1,19 @@
-import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableOpacity } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import { ThemedText } from '@/components';
+import { useRouter } from 'expo-router';
+
 import { PlayList } from '@/stores';
 import { usePalette, useReversePalette } from '@/themes';
-import { Feather } from '@expo/vector-icons'; // Ensure you have expo/vector-icons installed
+import { createStyle } from '@/utils/styles';
 
 export const PlayLitsItem = ({ playlist }: { playlist: PlayList }) => {
   const palette = usePalette();
   const reversePalette = useReversePalette();
+  const router = useRouter();
 
   const handlePress = () => {
-    console.log('Playlist clicked:', playlist.name);
+    router.push(`/playlist/${playlist.id}`);
   };
 
   return (
@@ -42,14 +46,14 @@ export const PlayLitsItem = ({ playlist }: { playlist: PlayList }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = createStyle({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 12,
     borderRadius: 8,
     marginVertical: 6,
-    elevation: 2, // Shadow effect
+    elevation: 2,
     justifyContent: 'space-between',
   },
   image: {

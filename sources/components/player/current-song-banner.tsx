@@ -28,9 +28,10 @@ export const CurrentSongBanner = () => {
   return (
     <View
       style={{
-        height: 70,
+        marginTop: 10,
+        height: 90,
         borderRadius: 15,
-        paddingVertical: 5,
+        paddingVertical: 10,
         paddingHorizontal: 5,
         backgroundColor: palette.card,
       }}
