@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { Pressable, View, ViewStyle } from 'react-native';
+import { FC, useState } from 'react';
+import { Image, Pressable, View, ViewStyle } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 import { ThemedText } from '../themed-text';
@@ -26,6 +26,7 @@ export const SongItem: FC<{
   playlist?: PlayList;
   style?: ViewStyle;
 }> = ({ song, playlist, style, onPress = NOOP_FN, canPlay = true }) => {
+  const [imageError, setImageError] = useState(false);
   const palette = usePalette();
   const reversePalette = useReversePalette();
   const {
@@ -48,7 +49,6 @@ export const SongItem: FC<{
       }
       return;
     }
-
     toggle();
   };
 
@@ -58,19 +58,27 @@ export const SongItem: FC<{
         style={[PLAY_LIST_ITEM_STYLE, { backgroundColor: palette.card }, style]}
       >
         <FlexView style={{ justifyContent: 'flex-start', gap: 20 }}>
-          <FlexView
-            style={{
-              borderRadius: 8,
-              padding: 10,
-              backgroundColor: reversePalette.background,
-            }}
-          >
-            <Feather
-              name="music"
-              color={palette.primary}
-              style={{ fontSize: 24 }}
+          {!imageError && song?.albumCoverUri ? (
+            <Image
+              source={{ uri: song.albumCoverUri }}
+              style={{ width: 50, height: 50, borderRadius: 8 }}
+              onError={() => setImageError(true)}
             />
-          </FlexView>
+          ) : (
+            <FlexView
+              style={{
+                borderRadius: 8,
+                padding: 10,
+                backgroundColor: reversePalette.background,
+              }}
+            >
+              <Feather
+                name="music"
+                color={palette.primary}
+                style={{ fontSize: 24 }}
+              />
+            </FlexView>
+          )}
           <View>
             <ThemedText
               style={{
@@ -87,7 +95,7 @@ export const SongItem: FC<{
                 fontSize: 14,
               }}
             >
-              {trimFilename(song.artist ?? '', 22)}
+              Artist: {trimFilename(song.artist ?? '', 22)}
             </ThemedText>
           </View>
         </FlexView>

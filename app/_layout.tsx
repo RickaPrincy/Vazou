@@ -26,15 +26,6 @@ const RootLayout = () => {
           >
             <Stack.Screen name="(tabs)" />
             <Stack.Screen
-              name="playlist/[id]"
-              options={{
-                gestureEnabled: true,
-                presentation: 'modal',
-                animation: 'slide_from_left',
-                gestureDirection: 'horizontal',
-              }}
-            />
-            <Stack.Screen
               name="create-playlist"
               options={{
                 gestureEnabled: true,
@@ -44,7 +35,16 @@ const RootLayout = () => {
               }}
             />
             <Stack.Screen
-              name="/playlist/[id]/add-song"
+              name="playlist/[id]/index"
+              options={{
+                gestureEnabled: true,
+                presentation: 'modal',
+                animation: 'slide_from_left',
+                gestureDirection: 'horizontal',
+              }}
+            />
+            <Stack.Screen
+              name="playlist/[id]/add-song"
               options={{
                 gestureEnabled: true,
                 presentation: 'modal',

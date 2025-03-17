@@ -1,9 +1,5 @@
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { PermissionStatus, PermissionRequester, RequesterName } from '../types';
-import { TouchableOpacity } from 'react-native';
-import { ThemedText } from '@/components';
-import { requestPermissionsAsync } from 'expo-music-library';
-import { getPathWithConventionsCollapsed } from 'expo-router/build/fork/getPathFromState-forks';
 
 const request = (requesters: PermissionRequester[]) => {
   return Promise.all(
@@ -46,17 +42,7 @@ export const RequestPermissionWrapper: FC<RequestPermissionWrapperProps> = ({
 
   if (notGrantedPermission) {
     //TODO: RELOAD PERMISSION
-    return (
-      <TouchableOpacity
-        onPress={() =>
-          requestPermissionsAsync()
-            .catch(e => console.log('e', e))
-            .then(e => console.log('x', e))
-        }
-      >
-        <ThemedText>Request</ThemedText>
-      </TouchableOpacity>
-    );
+    return null;
   }
 
   return <>{children}</>;

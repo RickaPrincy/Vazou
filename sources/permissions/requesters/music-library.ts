@@ -3,9 +3,9 @@ import {
   requestPermissionsAsync,
   PermissionResponse,
 } from 'expo-music-library';
+import { requestPermissionsAsync as requestMorePermission } from 'expo-media-library';
 
 const mapStatus = (status: PermissionResponse['status']) => {
-  console.log('state', status);
   switch (status) {
     case 'granted':
       return PermissionStatus.GRANTED;
@@ -21,6 +21,7 @@ const mapStatus = (status: PermissionResponse['status']) => {
 export const MediaMusicPermissionRequester: PermissionRequester = {
   name: RequesterName.MUSIC_LIBRARY,
   request: async () => {
+    await requestMorePermission();
     const { status } = await requestPermissionsAsync();
     return mapStatus(status);
   },

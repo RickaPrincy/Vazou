@@ -45,7 +45,7 @@ const TabLayout = () => {
         }}
       >
         <Tabs.Screen
-          name="playlist/index"
+          name="library"
           options={{
             title: '',
             tabBarIcon: ({ color }) => (
@@ -66,7 +66,7 @@ const TabLayout = () => {
           name="index"
           options={{
             title: '',
-            tabBarIcon: ({ color, focused }) => (
+            tabBarIcon: ({ focused }) => (
               <View
                 style={{
                   width: 65,
