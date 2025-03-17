@@ -1,1 +1,1 @@
-export * from './media-library';
+export * from './music-library';

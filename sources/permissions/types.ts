@@ -5,7 +5,7 @@ export enum PermissionStatus {
 }
 
 export enum RequesterName {
-  MEDIA_LIBRARY = 'MEDIA_LIBRARY',
+  MUSIC_LIBRARY = 'MUSIC_LIBRARY',
 }
 
 export type PermissionRequester = {

@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import { View } from 'react-native';
 import {
-  MediaLibraryPermissionRequester,
+  MediaMusicPermissionRequester,
   RequestPermissionWrapper,
 } from '@/permissions';
 import { CacheRestorerWrapper, SongPlayer } from '@/components';
@@ -18,9 +18,7 @@ const RootLayout = () => {
       }}
     >
       <CacheRestorerWrapper>
-        <RequestPermissionWrapper
-          requesters={[MediaLibraryPermissionRequester]}
-        >
+        <RequestPermissionWrapper requesters={[MediaMusicPermissionRequester]}>
           <Stack
             screenOptions={{
               headerShown: false,

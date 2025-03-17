@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { Pressable, View, ViewStyle } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
 import { ThemedText } from '../themed-text';
 import { FlexView } from '../flex-view';
-import { Feather } from '@expo/vector-icons';
 import { IconButton } from '../buttons';
-import { usePalette, useReversePalette } from '@/themes';
 import { PlayList, Song, usePlayer } from '@/stores';
+import { usePalette, useReversePalette } from '@/themes';
 import { trimFilename } from '@/utils/trim-filename';
 import { NOOP_FN } from '@/utils/noop-fn';
 
@@ -80,6 +80,15 @@ export const SongItem: FC<{
             >
               {trimFilename(song.filename, 22)}
             </ThemedText>
+            <ThemedText
+              style={{
+                maxWidth: 210,
+                color: isCurrentSong ? palette.primary : palette.secondary,
+                fontSize: 14,
+              }}
+            >
+              {trimFilename(song.artist ?? '', 22)}
+            </ThemedText>
           </View>
         </FlexView>
         {canPlay && (
@@ -91,11 +100,11 @@ export const SongItem: FC<{
               />
             ) : (
               <Feather
+                name="play"
                 style={{
                   fontSize: 24,
                   color: isCurrentSong ? palette.primary : palette.secondary,
                 }}
-                name="play"
               />
             )}
           </IconButton>
