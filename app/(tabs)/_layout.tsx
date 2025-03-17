@@ -1,6 +1,7 @@
 import { View } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 import { usePalette } from '@/themes';
 
@@ -77,11 +78,11 @@ const TabLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="url"
+          name="favorites"
           options={{
             title: '',
             tabBarIcon: ({ color }) => (
-              <Feather name="bell" size={22} color={color} />
+              <AntDesign name="hearto" size={24} color={color} />
             ),
           }}
         />
