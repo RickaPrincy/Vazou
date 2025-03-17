@@ -17,8 +17,8 @@ const RootLayout = () => {
         position: 'relative',
       }}
     >
-      <CacheRestorerWrapper>
-        <RequestPermissionWrapper requesters={[MediaMusicPermissionRequester]}>
+      <RequestPermissionWrapper requesters={[MediaMusicPermissionRequester]}>
+        <CacheRestorerWrapper>
           <Stack
             screenOptions={{
               headerShown: false,
@@ -54,8 +54,8 @@ const RootLayout = () => {
             />
           </Stack>
           <SongPlayer />
-        </RequestPermissionWrapper>
-      </CacheRestorerWrapper>
+        </CacheRestorerWrapper>
+      </RequestPermissionWrapper>
     </View>
   );
 };

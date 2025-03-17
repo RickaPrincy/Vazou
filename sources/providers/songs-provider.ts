@@ -1,4 +1,4 @@
-import * as ExpoMusicLibrary from 'expo-music-library';
+import { getAssetsAsync, getAlbumsAsync } from 'expo-music-library';
 
 import { Song } from '@/stores';
 import { configureCachedProvider } from './utils';
@@ -7,8 +7,8 @@ export const SONGS_CACHE_NAME = 'SONGS-CACHE';
 export const songsProvider = configureCachedProvider<Song[]>({
   name: SONGS_CACHE_NAME,
   get: async () => {
-    const audios = await ExpoMusicLibrary.getAssetsAsync();
-    const albums = await ExpoMusicLibrary.getAlbumsAsync();
+    const audios = await getAssetsAsync();
+    const albums = await getAlbumsAsync();
 
     return audios.assets.map(asset => {
       const albumInfo = albums.find(album => album.id === asset?.albumId);
