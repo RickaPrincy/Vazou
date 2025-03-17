@@ -1,24 +1,11 @@
 import { View } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
-import { Audio } from 'expo-av';
 
 import { usePalette } from '@/themes';
-import { useEffect } from 'react';
 
 const TabLayout = () => {
   const palette = usePalette();
-
-  useEffect(() => {
-    (async () => {
-      await Audio.setAudioModeAsync({
-        playsInSilentModeIOS: true,
-        allowsRecordingIOS: false,
-        shouldDuckAndroid: true,
-        staysActiveInBackground: true,
-      });
-    })();
-  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: palette.background }}>

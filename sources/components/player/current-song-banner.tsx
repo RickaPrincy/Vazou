@@ -5,10 +5,10 @@ import { useState } from 'react';
 import { FlexView } from '../flex-view';
 import { IconButton } from '../buttons';
 import { ThemedText } from '../themed-text';
+import { MusicDetailModal } from './music-details-modal';
 import { usePalette } from '@/themes';
 import { trimFilename } from '@/utils/trim-filename';
 import { usePlayer } from '@/stores';
-import { MusicDetailModal } from './MusicDetailModal';
 
 export const CurrentSongBanner = () => {
   const palette = usePalette();

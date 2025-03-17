@@ -1,37 +1,39 @@
+import { useEffect } from 'react';
+import TrackPlayer from 'react-native-track-player';
+
 import { usePlayer } from '@/stores';
-import { Audio } from 'expo-av';
-import { useEffect, useState } from 'react';
+import { useLoadingHandler } from '@/hooks';
 
 export const SongPlayer = () => {
   const { song: currentSong, playing: isPlaying } = usePlayer();
-  const [loadedSong, setLoadedSong] = useState<Audio.Sound | null>(null);
   const currentSongUri = currentSong?.uri;
+  const { isLoading, startLoading, stopLoading } = useLoadingHandler();
 
   useEffect(() => {
     (async () => {
-      if (loadedSong) {
-        await loadedSong.unloadAsync();
-      }
-
+      startLoading();
       if (!currentSongUri) {
         return;
       }
 
-      const { sound } = await Audio.Sound.createAsync(
-        { uri: currentSongUri },
-        { shouldPlay: isPlaying }
-      );
-      setLoadedSong(sound);
+      await TrackPlayer.load({
+        url: currentSong?.uri,
+        artwork: currentSong?.albumCoverUri,
+        artist: currentSong?.artist
+      });
+      stopLoading();
     })();
   }, [currentSongUri]);
 
   useEffect(() => {
-    if (isPlaying) {
-      loadedSong?.playAsync();
-    } else {
-      loadedSong?.pauseAsync();
-    }
-  }, [isPlaying]);
+    (async () => {
+      if (isPlaying && !isLoading) {
+        await TrackPlayer.play();
+      } else {
+        await TrackPlayer.pause();
+      }
+    })
+  }, [isPlaying, isLoading]);
 
   return null;
 };

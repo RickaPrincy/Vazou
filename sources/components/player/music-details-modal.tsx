@@ -1,10 +1,11 @@
 import { View, Text, Image, Modal, TouchableOpacity } from 'react-native';
-import { usePalette } from '@/themes';
-import { Ionicons } from '@expo/vector-icons';
-import { usePlayer } from '@/stores';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 
-interface MusicDetailModalProps {
+import { usePalette } from '@/themes';
+import { usePlayer } from '@/stores';
+
+type MusicDetailModalProps = {
   visible: boolean;
   onClose: () => void;
   song: {
@@ -20,7 +21,7 @@ export const MusicDetailModal = ({
   song,
 }: MusicDetailModalProps) => {
   const palette = usePalette();
-  const { toggle, isPlaying, next, previous, shuffle, replay } = usePlayer();
+  const { toggle, playing: isPlaying, next, prev } = usePlayer();
   const [progress, setProgress] = useState(0);
 
   if (!song) return null;
@@ -28,7 +29,6 @@ export const MusicDetailModal = ({
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <View style={{ flex: 1, backgroundColor: palette.background }}>
-        {/* Header */}
         <View
           style={{
             flexDirection: 'row',
@@ -101,21 +101,21 @@ export const MusicDetailModal = ({
             marginVertical: 20,
           }}
         >
-          <TouchableOpacity onPress={replay} style={{ marginHorizontal: 15 }}>
-            <Ionicons name="repeat" size={30} color={palette.accent} />
+          <TouchableOpacity style={{ marginHorizontal: 15 }}>
+            <Ionicons name="repeat" size={30} color={palette.secondary} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={previous} style={{ marginHorizontal: 15 }}>
-            <Ionicons name="play-skip-back" size={30} color={palette.accent} />
+          <TouchableOpacity onPress={prev} style={{ marginHorizontal: 15 }}>
+            <Ionicons name="play-skip-back" size={30} color={palette.secondary} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={toggle}
             style={{
-              backgroundColor: palette.accent,
+              backgroundColor: palette.secondary,
               padding: 15,
               borderRadius: 50,
             }}
           >
-            <Ionicons
+            <Feather
               name={isPlaying ? 'pause' : 'play'}
               size={30}
               color="white"
@@ -125,11 +125,11 @@ export const MusicDetailModal = ({
             <Ionicons
               name="play-skip-forward"
               size={30}
-              color={palette.accent}
+              color={palette.secondary}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={shuffle} style={{ marginHorizontal: 15 }}>
-            <Ionicons name="shuffle" size={30} color={palette.accent} />
+          <TouchableOpacity style={{ marginHorizontal: 15 }}>
+            <Ionicons name="shuffle" size={30} color={palette.secondary} />
           </TouchableOpacity>
         </View>
       </View>

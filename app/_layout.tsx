@@ -1,15 +1,36 @@
 import { Stack } from 'expo-router';
 import { View } from 'react-native';
+import TrackPlayer, { Capability } from "react-native-track-player"
+
 import {
   MediaMusicPermissionRequester,
   RequestPermissionWrapper,
 } from '@/permissions';
 import { CacheRestorerWrapper, SongPlayer } from '@/components';
-import { usePalette } from '@/themes';
 import { SheetModal } from '@/components/sheet-modal';
+import { usePalette } from '@/themes';
+import { useEffect } from 'react';
 
 const RootLayout = () => {
   const palette = usePalette();
+
+  useEffect(() => {
+    (async () => {
+      await TrackPlayer.setupPlayer();
+      await TrackPlayer.updateOptions({
+        capabilities: [
+          Capability.Like,
+          Capability.Play,
+          Capability.SeekTo,
+          Capability.Dislike,
+          Capability.Pause,
+          Capability.SkipToNext,
+          Capability.SkipToPrevious,
+        ]
+      })
+    })();
+  }, []);
+
   return (
     <View
       style={{

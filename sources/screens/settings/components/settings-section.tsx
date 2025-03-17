@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren } from 'react';
 import { View } from 'react-native';
+
 import { ThemedText } from '@/components';
 import { usePalette } from '@/themes';
 
