@@ -5,22 +5,25 @@ import { usePlayer } from '@/stores';
 import { useLoadingHandler } from '@/hooks';
 
 export const SongPlayer = () => {
+  const { isLoading, startLoading, stopLoading } = useLoadingHandler();
   const { song: currentSong, playing: isPlaying } = usePlayer();
   const currentSongUri = currentSong?.uri;
-  const { isLoading, startLoading, stopLoading } = useLoadingHandler();
 
   useEffect(() => {
     (async () => {
       startLoading();
       if (!currentSongUri) {
+        await TrackPlayer.reset();
         return;
       }
 
       await TrackPlayer.load({
         url: currentSong?.uri,
         artwork: currentSong?.albumCoverUri,
-        artist: currentSong?.artist
+        artist: currentSong?.artist,
+        title: currentSong?.filename,
       });
+      await TrackPlayer.play();
       stopLoading();
     })();
   }, [currentSongUri]);
@@ -32,7 +35,7 @@ export const SongPlayer = () => {
       } else {
         await TrackPlayer.pause();
       }
-    })
+    })();
   }, [isPlaying, isLoading]);
 
   return null;

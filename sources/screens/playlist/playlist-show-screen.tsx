@@ -27,9 +27,6 @@ export const PlayListShowScreen = () => {
           borderRadius: 15,
         }}
       >
-        <ThemedText style={{ fontSize: 14, color: 'gray' }}>
-          Description
-        </ThemedText>
         <ThemedText style={{ fontSize: 14, color: palette.secondary }}>
           {playlist?.name}
         </ThemedText>

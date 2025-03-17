@@ -2,13 +2,10 @@ import { TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
-import { MaterialIcons } from '@expo/vector-icons';
-import { TouchableOpacity, View } from 'react-native';
 
 import { FlexView, Screen, ThemedText } from '@/components';
 import { Header } from '@/components/header';
 import { SongList } from '@/components/song-list';
-import { IconButton } from '@/components/buttons';
 import { Song, usePlayListStore } from '@/stores';
 import { IconButton } from '@/components/buttons';
 import { useStateFetcher } from '@/hooks';

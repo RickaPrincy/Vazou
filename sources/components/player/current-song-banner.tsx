@@ -1,14 +1,13 @@
 import { View, Image, TouchableOpacity } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
 
 import { FlexView } from '../flex-view';
 import { IconButton } from '../buttons';
 import { ThemedText } from '../themed-text';
-import { MusicDetailModal } from './music-details-modal';
 import { usePalette } from '@/themes';
 import { trimFilename } from '@/utils/trim-filename';
 import { usePlayer } from '@/stores';
+import { router } from 'expo-router';
 
 export const CurrentSongBanner = () => {
   const palette = usePalette();
@@ -21,8 +20,6 @@ export const CurrentSongBanner = () => {
     song: currentSong,
   } = usePlayer();
 
-  const [modalVisible, setModalVisible] = useState(false);
-
   if (!currentSong) {
     return null;
   }
@@ -31,7 +28,7 @@ export const CurrentSongBanner = () => {
 
   return (
     <>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
+      <TouchableOpacity onPress={() => router.push('/play-view')}>
         <View
           style={{
             marginTop: 10,
@@ -119,13 +116,6 @@ export const CurrentSongBanner = () => {
           </FlexView>
         </View>
       </TouchableOpacity>
-
-      {/* Affichage du modal */}
-      <MusicDetailModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        song={currentSong}
-      />
     </>
   );
 };

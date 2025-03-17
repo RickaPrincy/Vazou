@@ -1,6 +1,5 @@
 import { Stack } from 'expo-router';
 import { View } from 'react-native';
-import TrackPlayer, { Capability } from "react-native-track-player"
 
 import {
   MediaMusicPermissionRequester,
@@ -8,28 +7,12 @@ import {
 } from '@/permissions';
 import { CacheRestorerWrapper, SongPlayer } from '@/components';
 import { SheetModal } from '@/components/sheet-modal';
+import { useSetupTrackPlayer } from '@/permissions/hooks';
 import { usePalette } from '@/themes';
-import { useEffect } from 'react';
 
 const RootLayout = () => {
   const palette = usePalette();
-
-  useEffect(() => {
-    (async () => {
-      await TrackPlayer.setupPlayer();
-      await TrackPlayer.updateOptions({
-        capabilities: [
-          Capability.Like,
-          Capability.Play,
-          Capability.SeekTo,
-          Capability.Dislike,
-          Capability.Pause,
-          Capability.SkipToNext,
-          Capability.SkipToPrevious,
-        ]
-      })
-    })();
-  }, []);
+  useSetupTrackPlayer();
 
   return (
     <View
@@ -48,15 +31,6 @@ const RootLayout = () => {
           >
             <Stack.Screen name="(tabs)" />
             <Stack.Screen
-              name="create-playlist"
-              options={{
-                gestureEnabled: true,
-                presentation: 'modal',
-                animation: 'slide_from_bottom',
-                gestureDirection: 'vertical',
-              }}
-            />
-            <Stack.Screen
               name="playlist/[id]/index"
               options={{
                 gestureEnabled: true,
@@ -70,6 +44,14 @@ const RootLayout = () => {
               options={{
                 gestureEnabled: true,
                 presentation: 'modal',
+                animation: 'slide_from_bottom',
+                gestureDirection: 'vertical',
+              }}
+            />
+            <Stack.Screen
+              name="play-view"
+              options={{
+                gestureEnabled: true,
                 animation: 'slide_from_bottom',
                 gestureDirection: 'vertical',
               }}

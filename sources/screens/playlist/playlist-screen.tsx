@@ -1,17 +1,19 @@
 import { FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 
 import { FlexView, Screen, ThemedText } from '@/components';
 import { IconButton } from '@/components/buttons';
 import { PlayLitsItem } from './components';
-import { usePlayListStore } from '@/stores';
+import { usePlayListStore, useSheetModal } from '@/stores';
 import { usePalette } from '@/themes';
+import { CreatePlayListModal } from './create-playlist-modal';
 
 export const PlayListScreen = () => {
-  const router = useRouter();
   const palette = usePalette();
   const playlists = usePlayListStore(state => state.playlists);
+  const openSheetModal = useSheetModal(state => state.open);
+
+  const openCreatePlayListModal = () => openSheetModal(<CreatePlayListModal />);
 
   return (
     <Screen>
@@ -22,7 +24,7 @@ export const PlayListScreen = () => {
           My Playlists
         </ThemedText>
         <IconButton
-          onPress={() => router.push('/create-playlist')}
+          onPress={openCreatePlayListModal}
           style={{ marginLeft: 10 }}
         >
           <Feather name="plus" size={30} color={palette.text} />

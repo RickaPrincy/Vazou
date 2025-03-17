@@ -8,7 +8,6 @@ import { BackHandler, Dimensions, ViewStyle } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { useSheetModal } from '@/stores';
-import { sheetModalStyles } from './style';
 import { usePalette } from '@/themes';
 
 export const SheetModal = () => {
@@ -38,18 +37,27 @@ export const SheetModal = () => {
       : bottomSheetModalRef.current?.dismiss();
   }, [isOpen]);
 
-  const height: ViewStyle = isOpen
-    ? sheetModalStyles.fullHeight
-    : { height: 0, display: 'none' };
   const handleSheetChanges = useCallback((index: number) => {
     if (index !== 0) close();
   }, []);
 
   const { height: screenHeight } = Dimensions.get('screen');
+  const isOpenStyle: ViewStyle = isOpen
+    ? { height: '100%' }
+    : { height: 0, display: 'none' };
 
   return (
     <GestureHandlerRootView
-      style={{ ...sheetModalStyles.container, ...height }}
+      style={[
+        {
+          flex: 1,
+          width: '100%',
+          height: screenHeight,
+          justifyContent: 'center',
+          backgroundColor: '#00000050',
+        },
+        isOpenStyle,
+      ]}
     >
       <BottomSheetModalProvider>
         <BottomSheetModal
@@ -61,11 +69,13 @@ export const SheetModal = () => {
           <BottomSheetView
             style={[
               {
-                ...sheetModalStyles.contentContainer,
-                minHeight: screenHeight * 0.5,
+                flex: 1,
+                padding: 20,
+                width: '100%',
+                height: screenHeight * 0.5,
                 backgroundColor: palette.background,
-                ...containerStyle,
               },
+              containerStyle,
             ]}
           >
             {content}
