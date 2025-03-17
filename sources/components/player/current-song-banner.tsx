@@ -1,5 +1,6 @@
-import { View } from 'react-native';
+import { View, Image, TouchableOpacity } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
 
 import { FlexView } from '../flex-view';
 import { IconButton } from '../buttons';
@@ -7,6 +8,7 @@ import { ThemedText } from '../themed-text';
 import { usePalette } from '@/themes';
 import { trimFilename } from '@/utils/trim-filename';
 import { usePlayer } from '@/stores';
+import { MusicDetailModal } from './MusicDetailModal';
 
 export const CurrentSongBanner = () => {
   const palette = usePalette();
@@ -19,68 +21,111 @@ export const CurrentSongBanner = () => {
     song: currentSong,
   } = usePlayer();
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   if (!currentSong) {
     return null;
   }
 
-  const trimedFilename = trimFilename(currentSong.filename, 40);
+  const trimmedFilename = trimFilename(currentSong.filename, 40);
 
   return (
-    <View
-      style={{
-        marginTop: 10,
-        height: 90,
-        borderRadius: 15,
-        paddingVertical: 10,
-        paddingHorizontal: 5,
-        backgroundColor: palette.card,
-      }}
-    >
-      <FlexView>
-        <ThemedText
+    <>
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <View
           style={{
-            textAlign: 'center',
-            fontSize: 12,
-            marginTop: 5,
-            marginBottom: 10,
+            marginTop: 10,
+            height: 100,
+            borderRadius: 15,
+            paddingVertical: 10,
+            paddingHorizontal: 5,
+            backgroundColor: palette.card,
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
-          {trimedFilename}
-        </ThemedText>
-      </FlexView>
-      <FlexView style={{ gap: 25, backgroundColor: palette.card }}>
-        <IconButton onPress={prev}>
-          <Feather
-            style={{ fontSize: 25, color: palette.secondary }}
-            name="skip-back"
-          />
-        </IconButton>
-        <IconButton onPress={toggle}>
-          {isPlaying ? (
-            <Feather
-              name="pause"
-              style={{ fontSize: 25, color: palette.secondary }}
+          {currentSong.albumCoverUri ? (
+            <Image
+              source={{ uri: currentSong.albumCoverUri }}
+              style={{
+                width: 60,
+                height: 60,
+                borderRadius: 8,
+                marginRight: 10,
+              }}
             />
           ) : (
-            <Feather
-              style={{ fontSize: 25, color: palette.secondary }}
-              name="play"
-            />
+            <FlexView
+              style={{
+                borderRadius: 8,
+                padding: 10,
+                backgroundColor: palette.background,
+                marginRight: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 60,
+                height: 60,
+              }}
+            >
+              <Feather
+                name="music"
+                color={palette.primary}
+                style={{ fontSize: 24 }}
+              />
+            </FlexView>
           )}
-        </IconButton>
-        <IconButton onPress={next}>
-          <Feather
-            style={{ fontSize: 25, color: palette.secondary }}
-            name="skip-forward"
-          />
-        </IconButton>
-        <IconButton onPress={stop}>
-          <Ionicons
-            name="stop-outline"
-            style={{ fontSize: 25, color: palette.secondary }}
-          />
-        </IconButton>
-      </FlexView>
-    </View>
+          <FlexView
+            style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}
+          >
+            <ThemedText
+              style={{ textAlign: 'center', fontSize: 14, marginBottom: 5 }}
+            >
+              {trimmedFilename}
+            </ThemedText>
+
+            <FlexView style={{ flexDirection: 'row', gap: 15 }}>
+              <IconButton onPress={prev}>
+                <Feather
+                  style={{ fontSize: 25, color: palette.secondary }}
+                  name="skip-back"
+                />
+              </IconButton>
+              <IconButton onPress={toggle}>
+                {isPlaying ? (
+                  <Feather
+                    name="pause"
+                    style={{ fontSize: 25, color: palette.secondary }}
+                  />
+                ) : (
+                  <Feather
+                    style={{ fontSize: 25, color: palette.secondary }}
+                    name="play"
+                  />
+                )}
+              </IconButton>
+              <IconButton onPress={next}>
+                <Feather
+                  style={{ fontSize: 25, color: palette.secondary }}
+                  name="skip-forward"
+                />
+              </IconButton>
+              <IconButton onPress={stop}>
+                <Ionicons
+                  name="stop-outline"
+                  style={{ fontSize: 25, color: palette.secondary }}
+                />
+              </IconButton>
+            </FlexView>
+          </FlexView>
+        </View>
+      </TouchableOpacity>
+
+      {/* Affichage du modal */}
+      <MusicDetailModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        song={currentSong}
+      />
+    </>
   );
 };
