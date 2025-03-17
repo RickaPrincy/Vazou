@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { View, FlatList } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import { PlayList, Song } from '@/stores';
 import { SongItem } from './song-item';
@@ -7,21 +8,24 @@ import { CurrentSongBanner } from '../player';
 import { ThemedText } from '../themed-text';
 import { FlexView } from '../flex-view';
 import { IconButton } from '../buttons';
-import { MaterialIcons } from '@expo/vector-icons';
 import { usePalette } from '@/themes';
 
 export type SongListProps = {
+  canPlay?: boolean;
   songs: Song[];
   playlist?: PlayList;
-  toggleSelected?: (id: Song) => void;
   selecteds?: Song[];
+  onLongPress?: (song: Song) => void;
+  onToggleSelected?: (song: Song) => void;
 };
 
 export const SongList: FC<SongListProps> = ({
-  selecteds,
-  toggleSelected,
   songs,
+  canPlay,
   playlist,
+  selecteds,
+  onLongPress,
+  onToggleSelected,
 }) => {
   const palette = usePalette();
   return (
@@ -37,26 +41,34 @@ export const SongList: FC<SongListProps> = ({
           </ThemedText>
         )}
         renderItem={({ item: song }) => {
-          if (!selecteds || !toggleSelected) {
-            return <SongItem playlist={playlist} key={song.id} song={song} />;
+          if (!selecteds || !onToggleSelected) {
+            return (
+              <SongItem
+                song={song}
+                key={song.id}
+                canPlay={canPlay}
+                playlist={playlist}
+                onLongPress={onLongPress}
+              />
+            );
           }
 
-          const selected = selecteds?.find(el => el.id === song.id);
-
+          const isSelected = selecteds?.some(el => el.id === song.id);
           return (
             <FlexView style={{ justifyContent: 'space-between' }}>
-              <IconButton onPress={() => toggleSelected(song)}>
+              <IconButton onPress={() => onToggleSelected(song)}>
                 <MaterialIcons
                   style={{ color: palette.text, fontSize: 24 }}
-                  name={selected ? 'check-box' : 'check-box-outline-blank'}
+                  name={isSelected ? 'check-box' : 'check-box-outline-blank'}
                 />
               </IconButton>
               <SongItem
-                canPlay={false}
-                style={{ width: 280 }}
-                playlist={playlist}
-                key={song.id}
                 song={song}
+                key={song.id}
+                canPlay={canPlay}
+                playlist={playlist}
+                style={{ width: 280 }}
+                onLongPress={onLongPress}
               />
             </FlexView>
           );

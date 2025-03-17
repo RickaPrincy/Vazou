@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
+import { MaterialIcons } from '@expo/vector-icons';
+import { TouchableOpacity, View } from 'react-native';
 
 import { FlexView, Screen, ThemedText } from '@/components';
 import { Header } from '@/components/header';
 import { SongList } from '@/components/song-list';
+import { IconButton } from '@/components/buttons';
 import { Song, usePlayListStore } from '@/stores';
 import { useStateFetcher } from '@/hooks';
 import { songsProvider } from '@/providers';
-import { TouchableOpacity, View } from 'react-native';
 import { usePalette } from '@/themes';
-import { IconButton } from '@/components/buttons';
-import { MaterialIcons } from '@expo/vector-icons';
 
 export const AddSongScreen = () => {
   const { id } = useLocalSearchParams() as { id: string };
@@ -27,20 +27,26 @@ export const AddSongScreen = () => {
   });
 
   const toggleSong = (candidate: Song) => {
-    if (selectedSongs.find(song => song.id === candidate.id)) {
-      setSelectedSongs(prev => prev.filter(song => song.id !== candidate.id));
-    } else {
-      setSelectedSongs(prev => [...prev, candidate]);
-    }
+    setSelectedSongs(prev =>
+      prev.some(song => song.id === candidate.id)
+        ? prev.filter(song => song.id !== candidate.id)
+        : [...prev, candidate]
+    );
   };
+
+  const filteredSongs = songs.filter(
+    song => !playlist.songs.some(pl => pl.id === song.id)
+  );
 
   return (
     <Screen>
       <Header title={`Add Song's to ${playlist.name}`} />
       <SongList
-        songs={songs}
+        playlist={playlist}
+        songs={filteredSongs}
         selecteds={selectedSongs}
-        toggleSelected={toggleSong}
+        onToggleSelected={toggleSong}
+        onLongPress={toggleSong}
       />
       {selectedSongs.length && (
         <View

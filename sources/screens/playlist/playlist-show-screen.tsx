@@ -58,7 +58,7 @@ export const PlayListShowScreen = () => {
           />
         </IconButton>
       </FlexView>
-      <SongList playlist={playlist} songs={playlist.songs} />
+      <SongList canPlay={true} playlist={playlist} songs={playlist.songs} />
     </Screen>
   );
 };

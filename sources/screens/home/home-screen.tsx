@@ -97,7 +97,6 @@ export const HomeScreen = () => {
           </IconButton>
         )}
       </FlexView>
-
       <SongList songs={filteredSongs} />
     </Screen>
   );

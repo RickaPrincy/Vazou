@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Image, Pressable, View, ViewStyle } from 'react-native';
+import { Image, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 import { ThemedText } from '../themed-text';
@@ -20,12 +20,12 @@ const PLAY_LIST_ITEM_STYLE: ViewStyle = {
 };
 
 export const SongItem: FC<{
-  canPlay?: boolean;
-  onPress?: () => void;
   song: Song;
+  onLongPress?: (song: Song) => void;
   playlist?: PlayList;
+  canPlay?: boolean;
   style?: ViewStyle;
-}> = ({ song, playlist, style, onPress = NOOP_FN, canPlay = true }) => {
+}> = ({ song, playlist, style, onLongPress = NOOP_FN, canPlay = true }) => {
   const [imageError, setImageError] = useState(false);
   const palette = usePalette();
   const reversePalette = useReversePalette();
@@ -53,7 +53,10 @@ export const SongItem: FC<{
   };
 
   return (
-    <Pressable onPress={onPress}>
+    <TouchableOpacity
+      delayLongPress={100}
+      onLongPress={() => onLongPress(song)}
+    >
       <FlexView
         style={[PLAY_LIST_ITEM_STYLE, { backgroundColor: palette.card }, style]}
       >
@@ -118,6 +121,6 @@ export const SongItem: FC<{
           </IconButton>
         )}
       </FlexView>
-    </Pressable>
+    </TouchableOpacity>
   );
 };

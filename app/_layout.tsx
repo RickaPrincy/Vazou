@@ -6,6 +6,7 @@ import {
 } from '@/permissions';
 import { CacheRestorerWrapper, SongPlayer } from '@/components';
 import { usePalette } from '@/themes';
+import { SheetModal } from '@/components/sheet-modal';
 
 const RootLayout = () => {
   const palette = usePalette();
@@ -54,6 +55,7 @@ const RootLayout = () => {
             />
           </Stack>
           <SongPlayer />
+          <SheetModal />
         </CacheRestorerWrapper>
       </RequestPermissionWrapper>
     </View>

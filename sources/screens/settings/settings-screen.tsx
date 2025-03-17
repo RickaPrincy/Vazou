@@ -1,16 +1,56 @@
 import { Switch, ScrollView } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import ColorPicker, { Swatches, Preview } from 'reanimated-color-picker';
+import { runOnJS } from 'react-native-reanimated';
 
-import { Screen } from '@/components';
+import { FlexView, Screen, ThemedText } from '@/components';
 import { SettingsItem, SettingsSection } from './components';
 import { useTheme, usePalette } from '@/themes';
-import { useConfigStore } from '@/stores';
+import { useConfigStore, useSheetModal } from '@/stores';
 import { NOOP_FN } from '@/utils/noop-fn';
 
 export const SettingsScreen = () => {
   const palette = usePalette();
   const theme = useTheme();
   const toggleTheme = useConfigStore(state => state.toggleTheme);
+  const setMainColor = useConfigStore(state => state.setMainColor);
+  const openSheetModal = useSheetModal(state => state.open);
+
+  const onSelectColor = ({ hex }: { hex: string }) => {
+    'worklet';
+    runOnJS(() => setMainColor(hex))();
+  };
+
+  const openColorPicker = () =>
+    openSheetModal(
+      <>
+        <FlexView style={{ justifyContent: 'space-between' }}>
+          <ThemedText
+            style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}
+          >
+            Pick your favourite color
+          </ThemedText>
+        </FlexView>
+        <ColorPicker
+          style={{ flex: 1 }}
+          value={palette.primary}
+          onComplete={onSelectColor}
+        >
+          <Preview hideText style={{ marginTop: 20, marginBottom: 20 }} />
+          <Swatches
+            colors={[
+              '#4287f5',
+              '#64a360',
+              '#b81c6c',
+              '#d17341',
+              '#becf40',
+              '#ae42bd',
+              '#db2c46',
+            ]}
+          />
+        </ColorPicker>
+      </>
+    );
 
   return (
     <Screen>
@@ -30,6 +70,13 @@ export const SettingsScreen = () => {
           />
         </SettingsSection>
         <SettingsSection title="Notifications">
+          <SettingsItem
+            icon={
+              <Feather name="check-square" size={24} color={palette.primary} />
+            }
+            onPress={openColorPicker}
+            title="Application Color"
+          />
           <SettingsItem
             icon={<Feather name="bell" size={24} color={palette.primary} />}
             title="Push Notifications"
