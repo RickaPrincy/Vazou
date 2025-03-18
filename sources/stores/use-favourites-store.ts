@@ -14,7 +14,7 @@ export const useFavouritesStore = createPersistedStore<UseFavouritesStore>({
   state: (set, get) => ({
     songs: [],
     toggle: debounce((song: Song) => {
-      const { songs } = get();
+      const { songs = [] } = get();
       const isAlreadyFavourite = songs.some(s => s.id === song.id);
 
       set({

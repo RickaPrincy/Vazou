@@ -48,12 +48,14 @@ export const ImageArtWork: FC<ImageArtWorkProps> = ({
   return (
     <Image
       source={{ uri }}
-      style={{
-        width: size,
-        height: size,
-        borderRadius: 8,
-        ...imageStyle,
-      }}
+      style={[
+        {
+          width: size,
+          height: size,
+          borderRadius: 8,
+        },
+        imageStyle,
+      ]}
       onError={() => setError(true)}
     />
   );

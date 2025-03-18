@@ -13,7 +13,10 @@ export const PlayListScreen = () => {
   const playlists = usePlayListStore(state => state.playlists);
   const openSheetModal = useSheetModal(state => state.open);
 
-  const openCreatePlayListModal = () => openSheetModal(<CreatePlayListModal />);
+  const openCreatePlayListModal = () =>
+    openSheetModal(<CreatePlayListModal />, {
+      containerStyle: { minHeight: 300, maxHeight: 300, height: 300 },
+    });
 
   return (
     <Screen>

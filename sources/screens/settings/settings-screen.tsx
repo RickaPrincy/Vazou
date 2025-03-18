@@ -41,7 +41,7 @@ export const SettingsScreen = () => {
             colors={[
               '#4287f5',
               '#64a360',
-              '#b81c6c',
+              '#8f3960',
               '#d17341',
               '#becf40',
               '#ae42bd',
@@ -49,7 +49,8 @@ export const SettingsScreen = () => {
             ]}
           />
         </ColorPicker>
-      </>
+      </>,
+      { containerStyle: { height: 300, maxHeight: 300, minHeight: 300 } }
     );
 
   return (

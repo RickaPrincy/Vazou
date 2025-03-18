@@ -29,7 +29,7 @@ export const Button: FC<ButtonProps> = ({
         {
           gap: 10,
           paddingHorizontal: 8,
-          paddingVertical: 10,
+          paddingVertical: 12,
           borderRadius: 15,
           backgroundColor: palette.primary,
           flexDirection: 'row',
@@ -41,7 +41,13 @@ export const Button: FC<ButtonProps> = ({
       {...props}
     >
       {icon && icon}
-      <ThemedText style={textStyle} {...textOtherProps}>
+      <ThemedText
+        style={[
+          { fontSize: 16, color: 'white', fontWeight: 'bold' },
+          textStyle,
+        ]}
+        {...textOtherProps}
+      >
         {children}
       </ThemedText>
     </TouchableOpacity>

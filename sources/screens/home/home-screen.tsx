@@ -18,6 +18,7 @@ import { useConfigStore, usePlayer, useSearchSongStore } from '@/stores';
 import { filterSongs } from '@/utils/filter-songs';
 import { homeScreenStyles as styles } from './styles';
 import { NOOP_FN } from '@/utils/noop-fn';
+import { router } from 'expo-router';
 
 export const HomeScreen = () => {
   const palette = usePalette();
@@ -98,7 +99,14 @@ export const HomeScreen = () => {
           </IconButton>
         )}
       </FlexView>
-      <SongList canPlay onPress={song => setSong(song)} songs={filteredSongs} />
+      <SongList
+        canPlay
+        onPress={song => {
+          setSong(song);
+          router.push('/play-view');
+        }}
+        songs={filteredSongs}
+      />
     </Screen>
   );
 };

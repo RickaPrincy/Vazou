@@ -1,16 +1,17 @@
 import { View } from 'react-native';
 import { FormProvider, useForm } from 'react-hook-form';
+import { Feather } from '@expo/vector-icons';
 import uuid from 'react-native-uuid';
 
 import { Button } from '@/components/buttons';
 import { TextInput } from '@/components/inputs';
 import { Header } from '@/components/header';
 import { PlayList, usePlayListStore, useSheetModal } from '@/stores';
-import { useReversePalette } from '@/themes';
+import { usePalette } from '@/themes';
 
 type CreatePlayListForm = Pick<PlayList, 'name'>;
 export const CreatePlayListModal = () => {
-  const reversePalette = useReversePalette();
+  const palette = usePalette();
   const addPlayList = usePlayListStore(state => state.addPlayList);
   const closeSheetModal = useSheetModal(state => state.close);
   const form = useForm<CreatePlayListForm>({
@@ -40,11 +41,12 @@ export const CreatePlayListModal = () => {
         <TextInput name="name" placeholder="Name" />
       </View>
       <Button
-        textProps={{ style: { color: reversePalette.text } }}
         style={{ marginTop: 10 }}
+        textProps={{ style: { color: palette.text } }}
+        icon={<Feather name="save" size={25} color={palette.text} />}
         onPress={form.handleSubmit(onSubmit)}
       >
-        Save
+        Créer
       </Button>
     </FormProvider>
   );
