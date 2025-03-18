@@ -1,15 +1,23 @@
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import {
+  AntDesign,
+  Feather,
+  Ionicons,
+  MaterialIcons,
+} from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useState } from 'react';
 
-import { FlexView, Screen } from '@/components';
+import { FlexView, Screen, ThemedText } from '@/components';
 import { SongList } from '@/components/song-list';
 import { Header } from '@/components/header';
 import { Button, IconButton } from '@/components/buttons';
-import { usePlayer, usePlayListStore } from '@/stores';
+import { usePlayer, usePlayListStore, Song } from '@/stores';
 import { usePalette } from '@/themes';
 
 export const PlayListShowScreen = () => {
   const { id } = useLocalSearchParams() as { id: string };
+  const palette = usePalette();
+
   const {
     playing: isPlaying,
     toggle,
@@ -18,25 +26,32 @@ export const PlayListShowScreen = () => {
     random,
     toggleRandom,
   } = usePlayer();
-  const palette = usePalette();
 
-  const getPlayList = usePlayListStore(state => state.getPlayList);
+  const { getPlayList, deleteSongsToPlayList } = usePlayListStore();
+
   const playlist = getPlayList(id);
+  const [selectedSongs, setSelectedSongs] = useState<Song[]>([]);
+
   const isCurrentPlayList = playlist.id === currentPlayList?.id;
   const isPlayingAsCurrentPlaylist = isPlaying && isCurrentPlayList;
   const isEmptyPlayList = playlist.songs.length === 0;
 
   const handlePlayPauseClick = () => {
-    if (isEmptyPlayList) {
-      return;
-    }
+    if (isEmptyPlayList) return;
 
     if (isPlayingAsCurrentPlaylist) {
       toggle();
-      return;
+    } else {
+      setPlayList(playlist);
     }
+  };
 
-    setPlayList(playlist);
+  const toggleSong = (song: Song) => {
+    setSelectedSongs(prev =>
+      prev.some(s => s.id === song.id)
+        ? prev.filter(s => s.id !== song.id)
+        : [...prev, song]
+    );
   };
 
   return (
@@ -52,7 +67,7 @@ export const PlayListShowScreen = () => {
         <FlexView style={{ gap: 20 }}>
           <IconButton onPress={handlePlayPauseClick}>
             <AntDesign
-              name="play"
+              name={isPlayingAsCurrentPlaylist ? 'pausecircle' : 'play'}
               style={{
                 color: isCurrentPlayList ? palette.primary : palette.text,
               }}
@@ -62,13 +77,54 @@ export const PlayListShowScreen = () => {
           <IconButton onPress={toggleRandom}>
             <Ionicons
               name="shuffle"
-              style={{ color: random ? palette.text : palette.primary }}
+              style={{ color: random ? palette.primary : palette.text }}
               size={35}
             />
           </IconButton>
         </FlexView>
       </FlexView>
-      <SongList canPlay playlist={playlist} songs={playlist.songs} />
+
+      {selectedSongs.length > 0 && (
+        <FlexView
+          style={{
+            backgroundColor: palette.card,
+            borderRadius: 30,
+            padding: 10,
+            marginBottom: 20,
+            justifyContent: 'space-between',
+          }}
+        >
+          <Button
+            onPress={() => {
+              deleteSongsToPlayList(playlist, selectedSongs);
+              setSelectedSongs([]);
+            }}
+            style={{ backgroundColor: 'red' }}
+            icon={<AntDesign color="white" size={20} name="delete" />}
+          >
+            <ThemedText
+              style={{ fontSize: 12, color: 'white', textAlign: 'center' }}
+            >
+              Delete selected
+            </ThemedText>
+          </Button>
+          <IconButton onPress={() => setSelectedSongs([])}>
+            <MaterialIcons name="clear" size={24} color={palette.secondary} />
+          </IconButton>
+        </FlexView>
+      )}
+
+      <SongList
+        canPlay
+        playlist={playlist}
+        songs={playlist.songs}
+        selecteds={selectedSongs}
+        onLongPress={toggleSong}
+        onToggleSelected={toggleSong}
+        onPress={
+          selectedSongs.length > 0 ? song => toggleSong(song) : undefined
+        }
+      />
     </Screen>
   );
 };

@@ -1,5 +1,5 @@
-import { TouchableOpacity, View } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { View } from 'react-native';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 
@@ -7,7 +7,7 @@ import { FlexView, Screen, ThemedText } from '@/components';
 import { Header } from '@/components/header';
 import { SongList } from '@/components/song-list';
 import { Song, usePlayListStore } from '@/stores';
-import { IconButton } from '@/components/buttons';
+import { Button, IconButton } from '@/components/buttons';
 import { useStateFetcher } from '@/hooks';
 import { songsProvider } from '@/providers';
 import { usePalette } from '@/themes';
@@ -41,6 +41,43 @@ export const AddSongScreen = () => {
   return (
     <Screen>
       <Header title={`Add Song's to ${playlist.name}`} />
+      {selectedSongs.length > 0 && (
+        <View
+          style={{
+            backgroundColor: palette.card,
+            borderRadius: 30,
+            padding: 10,
+            marginTop: 20,
+            marginBottom: 20,
+          }}
+        >
+          <FlexView style={{ justifyContent: 'space-between' }}>
+            <Button
+              onPress={() => {
+                addSongsToPlayList(playlist.id, selectedSongs);
+                router.replace('/library');
+              }}
+              style={{
+                backgroundColor: palette.primary,
+                paddingHorizontal: 20,
+              }}
+              icon={<AntDesign color="white" size={20} name="save" />}
+            >
+              <ThemedText
+                style={{ fontSize: 14, color: 'white', textAlign: 'center' }}
+              >
+                Save
+              </ThemedText>
+            </Button>
+            <IconButton onPress={() => setSelectedSongs([])}>
+              <MaterialIcons
+                name="clear"
+                style={{ fontSize: 24, color: palette.secondary }}
+              />
+            </IconButton>
+          </FlexView>
+        </View>
+      )}
       <SongList
         showSelectedOnEmpty
         canPlay={false}
@@ -51,47 +88,6 @@ export const AddSongScreen = () => {
         onToggleSelected={toggleSong}
         onLongPress={toggleSong}
       />
-      {selectedSongs.length > 0 && (
-        <View
-          style={{
-            backgroundColor: palette.card,
-            borderRadius: 30,
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-            marginTop: 20,
-          }}
-        >
-          <ThemedText style={{ fontSize: 18, marginBottom: 10 }}>
-            {selectedSongs.length} Songs Selectioned
-          </ThemedText>
-          <FlexView
-            style={{ marginBottom: 10, justifyContent: 'space-between' }}
-          >
-            <TouchableOpacity
-              onPress={() => {
-                addSongsToPlayList(playlist.id, selectedSongs);
-                router.back();
-              }}
-              style={{
-                paddingVertical: 5,
-                paddingHorizontal: 10,
-                borderRadius: 15,
-                backgroundColor: palette.primary,
-              }}
-            >
-              <ThemedText style={{ fontSize: 20, textAlign: 'center' }}>
-                Save
-              </ThemedText>
-            </TouchableOpacity>
-            <IconButton onPress={() => setSelectedSongs([])}>
-              <MaterialIcons
-                name="clear"
-                style={{ fontSize: 24, color: palette.secondary }}
-              />
-            </IconButton>
-          </FlexView>
-        </View>
-      )}
     </Screen>
   );
 };

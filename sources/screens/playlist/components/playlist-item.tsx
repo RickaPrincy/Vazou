@@ -1,13 +1,25 @@
+import { FC } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import { ThemedText } from '@/components';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
+import { IconButton } from '@/components/buttons';
+import { ThemedText } from '@/components';
 import { PlayList } from '@/stores';
 import { usePalette } from '@/themes';
 import { createStyle } from '@/utils/styles';
 
-export const PlayLitsItem = ({ playlist }: { playlist: PlayList }) => {
+type PlayLitsItemProps = {
+  playlist: PlayList;
+  selecteds: PlayList[];
+  togglePlayList: (playlist: PlayList) => void;
+};
+
+export const PlayLitsItem: FC<PlayLitsItemProps> = ({
+  playlist,
+  selecteds,
+  togglePlayList,
+}) => {
   const palette = usePalette();
   const router = useRouter();
 
@@ -15,14 +27,25 @@ export const PlayLitsItem = ({ playlist }: { playlist: PlayList }) => {
     router.push(`/playlist/${playlist.id}`);
   };
 
+  const isSelected = selecteds?.some(el => el.id === playlist.id);
+
   return (
     <TouchableOpacity
       onPress={handlePress}
+      onLongPress={() => togglePlayList(playlist)}
       style={[
         styles.container,
         { backgroundColor: playlist.color || palette.card },
       ]}
     >
+      {selecteds.length > 0 && (
+        <IconButton onPress={() => togglePlayList(playlist)}>
+          <MaterialIcons
+            style={{ marginRight: 15, color: palette.text, fontSize: 24 }}
+            name={isSelected ? 'check-box' : 'check-box-outline-blank'}
+          />
+        </IconButton>
+      )}
       {playlist.imageUri ? (
         <Image source={{ uri: playlist.imageUri }} style={styles.image} />
       ) : (

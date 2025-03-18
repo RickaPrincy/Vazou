@@ -14,8 +14,9 @@ export type PlayListStore = {
     (playListId: string, songs: Song[]) => void
   >;
   deleteSongsToPlayList: DebouncedFunction<
-    (playListId: string, ids: string[]) => void
+    (playlist: PlayList, songs: Song[]) => void
   >;
+  deleteAllPlaylists: (playlists: PlayList[]) => void;
 };
 
 const PLAY_LIST_CACHE_NAME = 'PLAY-LIST-CACHE';
@@ -56,11 +57,24 @@ export const usePlayListStore = createPersistedStore<PlayListStore>({
       get().updatePlayList(playList);
     }, CLICK_BUTTON_DEBOUNCE_MS),
 
-    deleteSongsToPlayList: debounce((id: string, ids: string[]) => {
-      const playList = get().getPlayList(id)!;
-      playList.songs = playList.songs.filter(song => !ids.includes(song.id))!;
+    deleteSongsToPlayList: debounce(
+      (playlist: PlayList, songsToDelete: Song[]) => {
+        const updatedPlaylist = {
+          ...playlist,
+          songs: playlist.songs.filter(
+            song => !songsToDelete.some(s => s.id === song.id)
+          ),
+        };
+        get().updatePlayList(updatedPlaylist);
+      },
+      CLICK_BUTTON_DEBOUNCE_MS
+    ),
 
-      get().updatePlayList(playList);
-    }, CLICK_BUTTON_DEBOUNCE_MS),
+    deleteAllPlaylists: (playlistsToDelete: PlayList[]) =>
+      set({
+        playlists: get().playlists.filter(
+          playlist => !playlistsToDelete.some(p => p.id === playlist.id)
+        ),
+      }),
   }),
 });
