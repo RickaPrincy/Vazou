@@ -1,25 +1,18 @@
 import { View, TouchableOpacity } from 'react-native';
-import { Feather, Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
 import { ImageArtWork } from '../image-artwork';
 import { FlexView } from '../flex-view';
-import { IconButton } from '../buttons';
 import { ThemedText } from '../themed-text';
 import { usePalette } from '@/themes';
 import { trimText } from '@/utils/trim-text';
 import { usePlayer } from '@/stores';
+import { IconButton } from '../buttons';
+import { Feather } from '@expo/vector-icons';
 
 export const CurrentSongBanner = () => {
   const palette = usePalette();
-  const {
-    playing: isPlaying,
-    next,
-    stop,
-    prev,
-    toggle,
-    song: currentSong,
-  } = usePlayer();
+  const { playing: isPlaying, next, toggle, song: currentSong } = usePlayer();
 
   if (!currentSong) {
     return null;
@@ -30,63 +23,63 @@ export const CurrentSongBanner = () => {
   return (
     <>
       <TouchableOpacity onPress={() => router.push('/play-view')}>
-        <View
+        <FlexView
           style={{
-            height: 100,
-            marginTop: 10,
-            borderRadius: 15,
+            gap: 5,
+            paddingHorizontal: 20,
             paddingVertical: 10,
-            paddingHorizontal: 5,
-            backgroundColor: palette.card,
-            flexDirection: 'row',
-            alignItems: 'center',
+            borderRadius: 50,
+            justifyContent: 'space-between',
+            marginTop: 10,
+            alignItems: 'flex-start',
+            backgroundColor: palette.primary,
           }}
         >
-          <ImageArtWork uri={currentSong.artwork} />
           <FlexView
-            style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}
+            style={{
+              gap: 10,
+              alignItems: 'flex-start',
+              marginTop: 5,
+              flex: 1,
+              justifyContent: 'flex-start',
+            }}
           >
-            <ThemedText
-              style={{ textAlign: 'center', fontSize: 14, marginBottom: 5 }}
-            >
-              {trimmedtitle}
-            </ThemedText>
-
-            <FlexView style={{ flexDirection: 'row', gap: 15 }}>
-              <IconButton onPress={prev}>
-                <Feather
-                  style={{ fontSize: 25, color: palette.secondary }}
-                  name="skip-back"
-                />
-              </IconButton>
-              <IconButton onPress={toggle}>
-                {isPlaying ? (
-                  <Feather
-                    name="pause"
-                    style={{ fontSize: 25, color: palette.secondary }}
-                  />
-                ) : (
-                  <Feather
-                    style={{ fontSize: 25, color: palette.secondary }}
-                    name="play"
-                  />
-                )}
-              </IconButton>
-              <IconButton onPress={next}>
-                <Feather
-                  style={{ fontSize: 25, color: palette.secondary }}
-                  name="skip-forward"
-                />
-              </IconButton>
-              <IconButton onPress={stop}>
-                <Ionicons
-                  name="stop-outline"
-                  style={{ fontSize: 25, color: palette.secondary }}
-                />
-              </IconButton>
-            </FlexView>
+            <ImageArtWork
+              style={{ backgroundColor: 'white' }}
+              uri={currentSong.uri}
+              size={30}
+            />
+            <View>
+              <ThemedText
+                style={{
+                  fontSize: 10,
+                  fontWeight: 'bold',
+                  marginBottom: 5,
+                  color: 'white',
+                }}
+              >
+                {trimmedtitle}
+              </ThemedText>
+              <ThemedText
+                style={{ fontSize: 10, marginBottom: 5, color: 'white' }}
+              >
+                Artist: {trimText(currentSong.artist, 20)}
+              </ThemedText>
+            </View>
           </FlexView>
-        </View>
+          <FlexView style={{ height: '100%', gap: 10 }}>
+            <IconButton onPress={toggle}>
+              <Feather
+                color={'white'}
+                size={25}
+                name={isPlaying ? 'pause' : 'play'}
+              />
+            </IconButton>
+            <IconButton onPress={next}>
+              <Feather color={'white'} size={25} name="skip-forward" />
+            </IconButton>
+          </FlexView>
+        </FlexView>
       </TouchableOpacity>
     </>
   );

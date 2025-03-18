@@ -15,15 +15,15 @@ export const useFavouritesStore = createPersistedStore<UseFavouritesStore>({
     songs: [],
     toggle: debounce((song: Song) => {
       const { songs = [] } = get();
-      const isAlreadyFavourite = songs.some(s => s.id === song.id);
+      const isAlreadyFavourite = songs.some(s => s.id === song?.id);
 
       set({
         songs: isAlreadyFavourite
-          ? songs.filter(s => s.id !== song.id)
+          ? songs.filter(s => s.id !== song?.id)
           : [...songs, song],
       });
     }, CLICK_BUTTON_DEBOUNCE_MS),
 
-    isFavourite: song => get().songs.some(s => s.id === song.id),
+    isFavourite: song => get().songs.some(s => s.id === song?.id),
   }),
 });

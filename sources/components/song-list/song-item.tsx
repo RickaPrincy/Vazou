@@ -12,7 +12,7 @@ import { NOOP_FN } from '@/utils/noop-fn';
 import { ImageArtWork } from '../image-artwork';
 
 const PLAY_LIST_ITEM_STYLE: ViewStyle = {
-  height: 80,
+  height: 70,
   paddingHorizontal: 20,
   paddingVertical: 15,
   marginVertical: 5,
@@ -69,15 +69,17 @@ export const SongItem: FC<{
         style={[PLAY_LIST_ITEM_STYLE, { backgroundColor: palette.card }, style]}
       >
         <FlexView style={{ justifyContent: 'flex-start', gap: 20 }}>
-          <ImageArtWork uri={song.artwork} />
+          <ImageArtWork size={40} uri={song.artwork} />
           <View>
             <ThemedText
               style={{
                 maxWidth: 210,
                 color: isCurrentSong ? palette.primary : palette.secondary,
+                fontSize: 12,
+                fontWeight: 'bold',
               }}
             >
-              {trimText(song.title, 22)}
+              {trimText(song.title, 25)}
             </ThemedText>
             <ThemedText
               style={{
