@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, ReactNode } from 'react';
 import { Feather } from '@expo/vector-icons';
-import { Pressable, ViewStyle } from 'react-native';
+import { TouchableOpacity, ViewStyle } from 'react-native';
 
 import { usePalette } from '@/themes';
 import { FlexView, ThemedText } from '@/components';
@@ -19,6 +19,8 @@ const SETTINGS_ITEM_STYLE: ViewStyle = {
   paddingVertical: 20,
   paddingHorizontal: 20,
   borderBottomWidth: 1,
+  marginVertical: 5,
+  borderRadius: 15,
 };
 
 export const SettingsItem: FC<SettingsItemProps> = ({
@@ -30,12 +32,12 @@ export const SettingsItem: FC<SettingsItemProps> = ({
   const palette = usePalette();
 
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={onPress}
       style={[
         SETTINGS_ITEM_STYLE,
         {
-          backgroundColor: palette.background,
+          backgroundColor: palette.card,
           borderColor: palette.border,
         },
       ]}
@@ -49,6 +51,6 @@ export const SettingsItem: FC<SettingsItemProps> = ({
       {right ?? (
         <Feather name="chevron-right" size={24} color={palette.secondary} />
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 };

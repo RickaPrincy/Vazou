@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native';
 import { Feather, Ionicons, AntDesign } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
+import TrackPlayer, { useProgress } from 'react-native-track-player';
 
 import { Header } from '@/components/header';
 import { IconButton } from '@/components/buttons';
@@ -10,6 +11,7 @@ import { usePalette } from '@/themes';
 import { trimText } from '@/utils/trim-text';
 import { useFavouritesStore } from '@/stores';
 import { formatDuration } from '@/utils/format-duration';
+import debounce from 'debounce';
 
 export const PlayMusicViewScreen = () => {
   const palette = usePalette();
@@ -22,10 +24,17 @@ export const PlayMusicViewScreen = () => {
     random,
     toggleRandom,
   } = usePlayer();
-
+  const progress = useProgress();
   const { isFavourite: isInFavourites, toggle: toggleFavorite } =
     useFavouritesStore();
   const isFavorite = isInFavourites(currentSong!);
+
+  const seekTo = debounce((value: number) => {
+    if (currentSong) {
+      TrackPlayer.seekTo(value);
+    }
+  }, 50);
+
   return (
     <Screen>
       <Header title="Vazou Music" />
@@ -70,24 +79,27 @@ export const PlayMusicViewScreen = () => {
           </Text>
         </FlexView>
       </View>
-      <View style={{ marginBottom: 20 }}>
+      <View style={{ marginBottom: 20, paddingHorizontal: 10 }}>
         <FlexView
           style={{
-            paddingHorizontal: 10,
             marginBottom: 10,
             justifyContent: 'space-between',
           }}
         >
-          <ThemedText style={{ color: palette.secondary }}>00:00</ThemedText>
+          <ThemedText style={{ color: palette.secondary }}>
+            {formatDuration(progress.position ?? 0)}
+          </ThemedText>
           <ThemedText style={{ color: palette.secondary }}>
             {formatDuration(currentSong?.duration ?? 0)}
           </ThemedText>
         </FlexView>
         <Slider
+          value={progress.position}
           minimumValue={0}
-          maximumValue={1}
+          maximumValue={currentSong?.duration ?? 0}
+          style={{ flex: 1, height: 40 }}
           thumbTintColor={palette.primary}
-          style={{ flex: 1, height: 50 }}
+          onSlidingComplete={seekTo}
           minimumTrackTintColor={palette.primary}
           maximumTrackTintColor={palette.secondary}
         />

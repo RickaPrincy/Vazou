@@ -32,10 +32,6 @@ export const HomeScreen = () => {
     fetcher: async () => await songsProvider.get(),
   });
 
-  if (isLoading) {
-    return <ActivityIndicator color={palette.primary} />;
-  }
-
   const filteredSongs = filterSongs(searchSongValue, songs);
 
   return (
@@ -99,14 +95,22 @@ export const HomeScreen = () => {
           </IconButton>
         )}
       </FlexView>
-      <SongList
-        canPlay
-        onPress={song => {
-          setSong(song);
-          router.push('/play-view');
-        }}
-        songs={filteredSongs}
-      />
+      {isLoading ? (
+        <ActivityIndicator
+          color={palette.primary}
+          size={40}
+          style={{ marginTop: 20 }}
+        />
+      ) : (
+        <SongList
+          canPlay
+          onPress={song => {
+            setSong(song);
+            router.push('/play-view');
+          }}
+          songs={filteredSongs}
+        />
+      )}
     </Screen>
   );
 };

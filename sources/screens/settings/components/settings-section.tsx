@@ -18,9 +18,10 @@ export const SettingsSection: FC<SettingsSectionProps> = ({
       <ThemedText
         style={{
           color: palette.secondary,
-          paddingHorizontal: 20,
+          paddingHorizontal: 5,
           fontSize: 16,
           fontWeight: 'bold',
+          marginBottom: 10,
         }}
       >
         {title}

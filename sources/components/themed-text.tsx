@@ -6,7 +6,10 @@ export const ThemedText: FC<TextProps> = ({ children, style, ...props }) => {
   const palette = usePalette();
 
   return (
-    <Text style={[{ color: palette.text }, style]} {...props}>
+    <Text
+      style={[{ fontFamily: 'Poppins', color: palette.text }, style]}
+      {...props}
+    >
       {children}
     </Text>
   );

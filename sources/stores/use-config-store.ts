@@ -25,9 +25,9 @@ export const useConfigStore = createPersistedStore<ConfigStore>({
   state: (set, get) => ({
     theme: null,
     mainColor: null,
-    toggleTheme: debounce(() => {
+    toggleTheme: () => {
       set({ theme: get().theme === 'dark' ? 'light' : 'dark' });
-    }, CLICK_BUTTON_DEBOUNCE_MS),
+    },
     setTheme: debounce(theme => set({ theme }), CLICK_BUTTON_DEBOUNCE_MS),
     setMainColor: debounce(
       mainColor => set({ mainColor }),

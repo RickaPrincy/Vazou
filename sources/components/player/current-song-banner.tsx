@@ -1,14 +1,14 @@
 import { View, TouchableOpacity } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
 import { ImageArtWork } from '../image-artwork';
+import { IconButton } from '../buttons';
 import { FlexView } from '../flex-view';
 import { ThemedText } from '../themed-text';
 import { usePalette } from '@/themes';
 import { trimText } from '@/utils/trim-text';
 import { usePlayer } from '@/stores';
-import { IconButton } from '../buttons';
-import { Feather } from '@expo/vector-icons';
 
 export const CurrentSongBanner = () => {
   const palette = usePalette();
