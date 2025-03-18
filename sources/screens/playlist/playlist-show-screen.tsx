@@ -1,61 +1,76 @@
-import { View } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { FlexView, Screen, ThemedText } from '@/components';
+import { FlexView, Screen } from '@/components';
 import { SongList } from '@/components/song-list';
 import { Header } from '@/components/header';
-import { IconButton } from '@/components/buttons';
-import { usePlayListStore } from '@/stores';
-import { usePalette, useReversePalette } from '@/themes';
+import { Button, IconButton } from '@/components/buttons';
+import { usePlayer, usePlayListStore } from '@/stores';
+import { usePalette } from '@/themes';
 
 export const PlayListShowScreen = () => {
   const { id } = useLocalSearchParams() as { id: string };
-  const getPlayList = usePlayListStore(state => state.getPlayList);
-  const reversedPalette = useReversePalette();
+  const {
+    playing: isPlaying,
+    toggle,
+    setPlayList,
+    playlist: currentPlayList,
+    random,
+    toggleRandom,
+  } = usePlayer();
   const palette = usePalette();
+
+  const getPlayList = usePlayListStore(state => state.getPlayList);
   const playlist = getPlayList(id);
+  const isCurrentPlayList = playlist.id === currentPlayList?.id;
+  const isPlayingAsCurrentPlaylist = isPlaying && isCurrentPlayList;
+  const isEmptyPlayList = playlist.songs.length === 0;
+
+  const handlePlayPauseClick = () => {
+    if (isEmptyPlayList) {
+      return;
+    }
+
+    if (isPlayingAsCurrentPlaylist) {
+      toggle();
+      return;
+    }
+
+    setPlayList(playlist);
+  };
 
   return (
     <Screen>
       <Header title={playlist?.name} />
-      <View
-        style={{
-          padding: 20,
-          marginTop: 20,
-          backgroundColor: palette.card,
-          borderRadius: 15,
-        }}
-      >
-        <ThemedText style={{ fontSize: 14, color: palette.secondary }}>
-          {playlist?.name}
-        </ThemedText>
-        <ThemedText style={{ marginTop: 10, fontSize: 14, color: 'gray' }}>
-          Number of Songs
-        </ThemedText>
-        <ThemedText style={{ fontSize: 16, color: palette.secondary }}>
-          {playlist?.songs.length}
-        </ThemedText>
-      </View>
-      <FlexView style={{ marginVertical: 20, justifyContent: 'space-between' }}>
-        <ThemedText style={{ fontWeight: 'bold', fontSize: 20 }}>
-          Playlist's song
-        </ThemedText>
-        <IconButton
+      <FlexView style={{ marginBottom: 30, justifyContent: 'space-between' }}>
+        <Button
           onPress={() => router.push(`/playlist/${playlist.id}/add-song`)}
-          style={{
-            backgroundColor: reversedPalette.background,
-            borderRadius: 8,
-            padding: 10,
-          }}
+          icon={
+            <Feather name="plus" style={{ color: palette.text }} size={20} />
+          }
         >
-          <Feather
-            name="plus"
-            style={{ fontSize: 20, color: palette.primary }}
-          />
-        </IconButton>
+          Add Music
+        </Button>
+        <FlexView style={{ gap: 20 }}>
+          <IconButton onPress={handlePlayPauseClick}>
+            <AntDesign
+              name="play"
+              style={{
+                color: isCurrentPlayList ? palette.primary : palette.text,
+              }}
+              size={35}
+            />
+          </IconButton>
+          <IconButton onPress={toggleRandom}>
+            <Ionicons
+              name="shuffle"
+              style={{ color: random ? palette.text : palette.primary }}
+              size={35}
+            />
+          </IconButton>
+        </FlexView>
       </FlexView>
-      <SongList canPlay={true} playlist={playlist} songs={playlist.songs} />
+      <SongList canPlay playlist={playlist} songs={playlist.songs} />
     </Screen>
   );
 };

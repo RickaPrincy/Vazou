@@ -42,13 +42,15 @@ export const AddSongScreen = () => {
     <Screen>
       <Header title={`Add Song's to ${playlist.name}`} />
       <SongList
+        canPlay={false}
         playlist={playlist}
         songs={filteredSongs}
+        onPress={toggleSong}
         selecteds={selectedSongs}
         onToggleSelected={toggleSong}
         onLongPress={toggleSong}
       />
-      {selectedSongs.length && (
+      {selectedSongs.length > 0 && (
         <View
           style={{
             backgroundColor: palette.card,

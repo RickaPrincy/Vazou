@@ -26,12 +26,16 @@ export const SongItem: FC<{
   playlist?: PlayList;
   canPlay?: boolean;
   style?: ViewStyle;
+  trimTitleValue?: number;
+  trimArtistValue?: number;
   onPress?: (song: Song) => void;
 }> = ({
   song,
   playlist,
   onPress = NOOP_FN,
   style,
+  trimTitleValue = 25,
+  trimArtistValue = 13,
   onLongPress = NOOP_FN,
   canPlay = true,
 }) => {
@@ -79,7 +83,7 @@ export const SongItem: FC<{
                 fontWeight: 'bold',
               }}
             >
-              {trimText(song.title, 25)}
+              {trimText(song.title, trimTitleValue)}
             </ThemedText>
             <ThemedText
               style={{
@@ -88,7 +92,7 @@ export const SongItem: FC<{
                 fontSize: 14,
               }}
             >
-              Artist: {trimText(song.artist ?? '', 18)}
+              Artist: {trimText(song.artist ?? '', trimArtistValue)}
             </ThemedText>
           </View>
         </FlexView>

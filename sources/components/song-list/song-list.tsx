@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, ViewStyle } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { PlayList, Song } from '@/stores';
@@ -15,6 +15,7 @@ export type SongListProps = {
   songs: Song[];
   playlist?: PlayList;
   selecteds?: Song[];
+  songItemStyle?: ViewStyle;
   onLongPress?: (song: Song) => void;
   onToggleSelected?: (song: Song) => void;
   onPress?: (song: Song) => void;
@@ -25,6 +26,7 @@ export const SongList: FC<SongListProps> = ({
   canPlay,
   playlist,
   selecteds,
+  songItemStyle = {},
   onLongPress,
   onToggleSelected,
   onPress,
@@ -36,11 +38,14 @@ export const SongList: FC<SongListProps> = ({
         data={songs}
         keyExtractor={song => song.id}
         ListEmptyComponent={() => (
-          <ThemedText
-            style={{ textAlign: 'center', marginTop: 30, fontSize: 15 }}
-          >
-            No Music Yet
-          </ThemedText>
+          <View style={{ alignItems: 'center', marginTop: 50 }}>
+            <MaterialIcons name="music-off" size={40} color="#888" />
+            <ThemedText
+              style={{ textAlign: 'center', marginTop: 10, fontSize: 16 }}
+            >
+              Your playlist is empty
+            </ThemedText>
+          </View>
         )}
         renderItem={({ item: song }) => {
           if (!selecteds || !onToggleSelected) {
@@ -68,9 +73,12 @@ export const SongList: FC<SongListProps> = ({
               <SongItem
                 song={song}
                 key={song.id}
+                onPress={onPress}
                 canPlay={canPlay}
                 playlist={playlist}
-                style={{ width: 280 }}
+                trimArtistValue={13}
+                trimTitleValue={20}
+                style={{ width: 280, ...songItemStyle }}
                 onLongPress={onLongPress}
               />
             </FlexView>

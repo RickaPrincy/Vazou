@@ -72,7 +72,7 @@ const TabLayout = () => {
                   marginBottom: 20,
                 }}
               >
-                <Feather name="music" size={25} color="#fff" />
+                <Feather name="home" size={25} color="#fff" />
               </View>
             ),
           }}
