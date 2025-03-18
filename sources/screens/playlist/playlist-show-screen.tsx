@@ -76,9 +76,9 @@ export const PlayListShowScreen = () => {
           </IconButton>
           <IconButton onPress={toggleRandom}>
             <Ionicons
+              size={35}
               name="shuffle"
               style={{ color: random ? palette.primary : palette.text }}
-              size={35}
             />
           </IconButton>
         </FlexView>
