@@ -4,16 +4,17 @@
     "slug": "Vazou",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/Vazou.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": false,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.Vazou"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/Vazou.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.anonymous.Vazou"
@@ -28,7 +29,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
@@ -37,6 +38,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "1b67a9fb-d201-4c81-884a-c4de85d2eff4"
+      }
+    },
+    "owner": "harizo"
   }
 }
