@@ -1,9 +1,9 @@
 import { FC, useState } from 'react';
 import { Image, ImageStyle, ViewStyle } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { usePalette, useReversePalette } from '@/themes';
 
 import { FlexView } from './flex-view';
+import { usePalette, useReversePalette } from '@/themes';
 
 type ImageArtWorkProps = {
   uri?: string;

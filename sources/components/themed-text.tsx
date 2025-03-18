@@ -1,6 +1,7 @@
-import { usePalette } from '@/themes';
 import { FC } from 'react';
 import { Text, TextProps } from 'react-native';
+
+import { usePalette } from '@/themes';
 
 export const ThemedText: FC<TextProps> = ({ children, style, ...props }) => {
   const palette = usePalette();

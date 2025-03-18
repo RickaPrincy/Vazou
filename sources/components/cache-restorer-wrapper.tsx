@@ -1,7 +1,8 @@
+import { FC, PropsWithChildren, useEffect } from 'react';
+
 import { useLoadingHandler } from '@/hooks';
 import { songsProvider } from '@/providers';
 import { useConfigStore, useFavoritesStore, usePlayListStore } from '@/stores';
-import { FC, PropsWithChildren, useEffect } from 'react';
 
 export const CacheRestorerWrapper: FC<PropsWithChildren> = ({ children }) => {
   const initConfigStore = useConfigStore(state => state.init);

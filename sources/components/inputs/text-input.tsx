@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
-import { usePalette } from '@/themes';
-import { Controller, useFormContext } from 'react-hook-form';
 import { View, TextInput as NativeTextInput } from 'react-native';
+import { Controller, useFormContext } from 'react-hook-form';
+
+import { usePalette } from '@/themes';
 
 export type TextInputProps = {
   name: string;

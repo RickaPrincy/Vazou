@@ -6,10 +6,10 @@ import { ThemedText } from '../themed-text';
 import { FlexView } from '../flex-view';
 import { IconButton } from '../buttons';
 import { PlayList, Song, usePlayer } from '@/stores';
+import { ImageArtWork } from '../image-artwork';
 import { usePalette } from '@/themes';
 import { trimText } from '@/utils/trim-text';
 import { NOOP_FN } from '@/utils/noop-fn';
-import { ImageArtWork } from '../image-artwork';
 
 const PLAY_LIST_ITEM_STYLE: ViewStyle = {
   height: 70,

@@ -7,6 +7,7 @@ import {
   TextInput,
 } from 'react-native';
 import { Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 import { ThemedText, FlexView, Screen } from '@/components';
 import { IconButton } from '@/components/buttons';
@@ -18,7 +19,6 @@ import { useConfigStore, usePlayer, useSearchSongStore } from '@/stores';
 import { filterSongs } from '@/utils/filter-songs';
 import { homeScreenStyles as styles } from './styles';
 import { NOOP_FN } from '@/utils/noop-fn';
-import { router } from 'expo-router';
 
 export const HomeScreen = () => {
   const palette = usePalette();

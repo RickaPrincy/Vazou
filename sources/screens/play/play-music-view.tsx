@@ -2,6 +2,7 @@ import { View, Text } from 'react-native';
 import { Feather, Ionicons, AntDesign } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
+import debounce from 'debounce';
 
 import { Header } from '@/components/header';
 import { IconButton } from '@/components/buttons';
@@ -11,7 +12,6 @@ import { usePalette } from '@/themes';
 import { trimText } from '@/utils/trim-text';
 import { useFavoritesStore } from '@/stores';
 import { formatDuration } from '@/utils/format-duration';
-import debounce from 'debounce';
 
 export const PlayMusicViewScreen = () => {
   const palette = usePalette();

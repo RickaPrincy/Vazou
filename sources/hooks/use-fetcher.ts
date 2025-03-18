@@ -6,7 +6,6 @@ export type UseFetcherArgs<T> = {
   fetcher: () => Promise<T>;
 };
 
-//TODO: add error handler
 export const useFetcher = <T>({ setter, fetcher }: UseFetcherArgs<T>) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -15,8 +14,6 @@ export const useFetcher = <T>({ setter, fetcher }: UseFetcherArgs<T>) => {
       try {
         setter(await fetcher());
       } catch (e) {
-        console.error(e);
-        //TODO: error handle
       } finally {
         setIsLoading(false);
       }
