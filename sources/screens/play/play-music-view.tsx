@@ -1,12 +1,13 @@
 import { View, Text } from 'react-native';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Feather, Ionicons, AntDesign } from '@expo/vector-icons';
 
 import { Header } from '@/components/header';
 import { IconButton } from '@/components/buttons';
 import { FlexView, ImageArtWork, Screen } from '@/components';
 import { usePalette } from '@/themes';
-import { usePlayer } from '@/stores';
+import { Song, usePlayer } from '@/stores';
 import { trimText } from '@/utils/trim-text';
+import { useFavouritesStore } from '@/stores';
 
 export const PlayMusicViewScreen = () => {
   const palette = usePalette();
@@ -15,11 +16,14 @@ export const PlayMusicViewScreen = () => {
     playing: isPlaying,
     next,
     prev,
-    song: currentSong,
+    song: currentSong = {} as Song,
     random,
     toggleRandom,
   } = usePlayer();
 
+  const { isFavourite: isInFavourites, toggle: toggleFavorite } =
+    useFavouritesStore();
+  const isFavorite = isInFavourites(currentSong!);
   return (
     <Screen>
       <Header title="Vazou Music" />
@@ -84,6 +88,13 @@ export const PlayMusicViewScreen = () => {
             name="shuffle"
             size={30}
             color={random ? palette.primary : palette.secondary}
+          />
+        </IconButton>
+        <IconButton onPress={() => toggleFavorite(currentSong!)}>
+          <AntDesign
+            name={isFavorite ? 'heart' : 'hearto'}
+            size={30}
+            color={isFavorite ? 'red' : palette.secondary}
           />
         </IconButton>
       </FlexView>
