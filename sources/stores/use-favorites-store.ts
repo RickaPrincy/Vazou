@@ -6,6 +6,7 @@ import { CLICK_BUTTON_DEBOUNCE_MS } from '@/utils/debounce';
 export type UseFavoritesStore = {
   songs: Song[];
   toggle: (song: Song) => void;
+  toggleAll: (songs: Song[]) => void;
   isFavourite: (song: Song) => boolean;
 };
 
@@ -23,6 +24,24 @@ export const useFavoritesStore = createPersistedStore<UseFavoritesStore>({
           : [...songs, song],
       });
     }, CLICK_BUTTON_DEBOUNCE_MS),
+
+    toggleAll: (newSongs: Song[]) => {
+      const currentSongs = get().songs;
+      const allAlreadyFavourite = newSongs.every(song =>
+        currentSongs.some(s => s.id === song.id)
+      );
+
+      set({
+        songs: allAlreadyFavourite
+          ? currentSongs.filter(s => !newSongs.some(song => song.id === s.id))
+          : [
+              ...currentSongs,
+              ...newSongs.filter(
+                song => !currentSongs.some(s => s.id === song.id)
+              ),
+            ],
+      });
+    },
 
     isFavourite: song => get().songs.some(s => s.id === song?.id),
   }),

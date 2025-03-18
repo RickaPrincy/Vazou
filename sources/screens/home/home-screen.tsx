@@ -7,7 +7,6 @@ import {
   TextInput,
 } from 'react-native';
 import { Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 
 import { ThemedText, FlexView, Screen } from '@/components';
 import { IconButton } from '@/components/buttons';
@@ -15,7 +14,7 @@ import { SongList } from '@/components/song-list';
 import { useStateFetcher } from '@/hooks';
 import { songsProvider } from '@/providers';
 import { usePalette } from '@/themes';
-import { useConfigStore, usePlayer, useSearchSongStore } from '@/stores';
+import { useConfigStore, useSearchSongStore } from '@/stores';
 import { filterSongs } from '@/utils/filter-songs';
 import { homeScreenStyles as styles } from './styles';
 import { NOOP_FN } from '@/utils/noop-fn';
@@ -23,7 +22,6 @@ import { NOOP_FN } from '@/utils/noop-fn';
 export const HomeScreen = () => {
   const palette = usePalette();
   const user = useConfigStore(state => state.user);
-  const setSong = usePlayer(state => state.setSong);
   const { setValue: setSearchSongValue, value: searchSongValue } =
     useSearchSongStore();
 
@@ -97,19 +95,12 @@ export const HomeScreen = () => {
       </FlexView>
       {isLoading ? (
         <ActivityIndicator
-          color={palette.primary}
           size={40}
+          color={palette.primary}
           style={{ marginTop: 20 }}
         />
       ) : (
-        <SongList
-          canPlay
-          onPress={song => {
-            setSong(song);
-            router.push('/play-view');
-          }}
-          songs={filteredSongs}
-        />
+        <SongList canPlay songs={filteredSongs} />
       )}
     </Screen>
   );

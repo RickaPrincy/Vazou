@@ -11,6 +11,7 @@ import { IconButton } from '../buttons';
 import { usePalette } from '@/themes';
 
 export type SongListProps = {
+  showSelectedOnEmpty?: boolean;
   canPlay?: boolean;
   songs: Song[];
   playlist?: PlayList;
@@ -19,6 +20,7 @@ export type SongListProps = {
   onLongPress?: (song: Song) => void;
   onToggleSelected?: (song: Song) => void;
   onPress?: (song: Song) => void;
+  redirectToPreviewOnClick?: boolean;
 };
 
 export const SongList: FC<SongListProps> = ({
@@ -27,6 +29,8 @@ export const SongList: FC<SongListProps> = ({
   playlist,
   selecteds,
   songItemStyle = {},
+  showSelectedOnEmpty = false,
+  redirectToPreviewOnClick = false,
   onLongPress,
   onToggleSelected,
   onPress,
@@ -48,15 +52,19 @@ export const SongList: FC<SongListProps> = ({
           </View>
         )}
         renderItem={({ item: song }) => {
-          if (!selecteds || !onToggleSelected) {
+          if (
+            ((selecteds?.length ?? 0) < 1 && !showSelectedOnEmpty) ||
+            !onToggleSelected
+          ) {
             return (
               <SongItem
-                onPress={onPress}
                 song={song}
                 key={song.id}
                 canPlay={canPlay}
                 playlist={playlist}
+                onPress={onPress}
                 onLongPress={onLongPress}
+                redirectToPreviewOnClick={redirectToPreviewOnClick}
               />
             );
           }
@@ -80,6 +88,7 @@ export const SongList: FC<SongListProps> = ({
                 trimTitleValue={20}
                 style={{ width: 280, ...songItemStyle }}
                 onLongPress={onLongPress}
+                redirectToPreviewOnClick={redirectToPreviewOnClick}
               />
             </FlexView>
           );

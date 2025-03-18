@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { TouchableOpacity, View, ViewStyle } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 import { ThemedText } from '../themed-text';
 import { FlexView } from '../flex-view';
@@ -29,11 +30,13 @@ export const SongItem: FC<{
   trimTitleValue?: number;
   trimArtistValue?: number;
   onPress?: (song: Song) => void;
+  redirectToPreviewOnClick?: boolean;
 }> = ({
   song,
   playlist,
-  onPress = NOOP_FN,
+  onPress,
   style,
+  redirectToPreviewOnClick,
   trimTitleValue = 25,
   trimArtistValue = 13,
   onLongPress = NOOP_FN,
@@ -52,20 +55,32 @@ export const SongItem: FC<{
   const isCurrentPlayList = currentPlayList?.id === playlist?.id;
 
   const handlePlayPauseButton = () => {
-    if (!isCurrentSong) {
-      if (isCurrentPlayList || !playlist) {
-        setPlayingSong(song);
-      } else {
-        setCurrent({ playlist, song });
-      }
+    if (isCurrentSong) {
+      toggle();
       return;
     }
-    toggle();
+
+    if (playlist) {
+      if (!isCurrentPlayList) {
+        setCurrent({ playlist, song });
+      } else {
+        setPlayingSong(song);
+      }
+    } else {
+      setCurrent({ song, playlist: null });
+    }
+
+    if (isCurrentPlayList) {
+      if (redirectToPreviewOnClick) {
+        router.push('/play-view');
+      }
+    }
+    return;
   };
 
   return (
     <TouchableOpacity
-      onPress={() => onPress(song)}
+      onPress={() => (onPress ? onPress(song) : handlePlayPauseButton())}
       delayLongPress={100}
       onLongPress={() => onLongPress(song)}
     >

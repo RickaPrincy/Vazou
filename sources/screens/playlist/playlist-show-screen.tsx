@@ -45,9 +45,7 @@ export const PlayListShowScreen = () => {
       <FlexView style={{ marginBottom: 30, justifyContent: 'space-between' }}>
         <Button
           onPress={() => router.push(`/playlist/${playlist.id}/add-song`)}
-          icon={
-            <Feather name="plus" style={{ color: palette.text }} size={20} />
-          }
+          icon={<Feather name="plus" style={{ color: 'white' }} size={20} />}
         >
           Add Music
         </Button>

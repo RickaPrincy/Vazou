@@ -15,12 +15,12 @@ import { usePalette } from '@/themes';
 export const AddSongScreen = () => {
   const { id } = useLocalSearchParams() as { id: string };
   const getPlayList = usePlayListStore(state => state.getPlayList)!;
+  const playlist = getPlayList(id);
   const addSongsToPlayList = usePlayListStore(
     state => state.addSongsToPlayList
   );
   const palette = usePalette();
   const [selectedSongs, setSelectedSongs] = useState<Song[]>([]);
-  const playlist = getPlayList(id);
   const { data: songs } = useStateFetcher({
     defaultValue: [],
     fetcher: () => songsProvider.get(),
@@ -42,6 +42,7 @@ export const AddSongScreen = () => {
     <Screen>
       <Header title={`Add Song's to ${playlist.name}`} />
       <SongList
+        showSelectedOnEmpty
         canPlay={false}
         playlist={playlist}
         songs={filteredSongs}
