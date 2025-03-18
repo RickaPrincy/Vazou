@@ -2,7 +2,7 @@ export type Song = {
   id: string;
   uri: string;
   duration: number;
-  filename: string;
+  title: string;
   artist?: string;
   albumTitle?: string;
   artwork?: string;

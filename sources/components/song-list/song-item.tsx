@@ -7,7 +7,7 @@ import { FlexView } from '../flex-view';
 import { IconButton } from '../buttons';
 import { PlayList, Song, usePlayer } from '@/stores';
 import { usePalette } from '@/themes';
-import { trimFilename } from '@/utils/trim-filename';
+import { trimText } from '@/utils/trim-text';
 import { NOOP_FN } from '@/utils/noop-fn';
 import { ImageArtWork } from '../image-artwork';
 
@@ -77,7 +77,7 @@ export const SongItem: FC<{
                 color: isCurrentSong ? palette.primary : palette.secondary,
               }}
             >
-              {trimFilename(song.filename, 22)}
+              {trimText(song.title, 22)}
             </ThemedText>
             <ThemedText
               style={{
@@ -86,7 +86,7 @@ export const SongItem: FC<{
                 fontSize: 14,
               }}
             >
-              Artist: {trimFilename(song.artist ?? '', 18)}
+              Artist: {trimText(song.artist ?? '', 18)}
             </ThemedText>
           </View>
         </FlexView>

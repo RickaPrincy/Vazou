@@ -6,7 +6,7 @@ import { IconButton } from '@/components/buttons';
 import { FlexView, ImageArtWork, Screen } from '@/components';
 import { usePalette } from '@/themes';
 import { usePlayer } from '@/stores';
-import { trimFilename } from '@/utils/trim-filename';
+import { trimText } from '@/utils/trim-text';
 
 export const PlayMusicViewScreen = () => {
   const palette = usePalette();
@@ -24,7 +24,11 @@ export const PlayMusicViewScreen = () => {
     <Screen>
       <Header title="Vazou Music" />
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ImageArtWork uri={currentSong?.artwork} size={300} />
+        <ImageArtWork
+          style={{ borderRadius: 0 }}
+          uri={currentSong?.artwork}
+          size={300}
+        />
         <FlexView
           style={{
             marginTop: 20,
@@ -40,7 +44,7 @@ export const PlayMusicViewScreen = () => {
               color: palette.text,
             }}
           >
-            {trimFilename(currentSong?.filename ?? '', 40)}
+            {trimText(currentSong?.title ?? '', 40)}
           </Text>
           <Text style={{ fontSize: 18, color: palette.secondary }}>
             {currentSong?.artist || 'Artiste inconnu'}

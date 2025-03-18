@@ -7,7 +7,7 @@ import { FlexView } from '../flex-view';
 import { IconButton } from '../buttons';
 import { ThemedText } from '../themed-text';
 import { usePalette } from '@/themes';
-import { trimFilename } from '@/utils/trim-filename';
+import { trimText } from '@/utils/trim-text';
 import { usePlayer } from '@/stores';
 
 export const CurrentSongBanner = () => {
@@ -25,15 +25,15 @@ export const CurrentSongBanner = () => {
     return null;
   }
 
-  const trimmedFilename = trimFilename(currentSong.filename, 25);
+  const trimmedtitle = trimText(currentSong.title, 25);
 
   return (
     <>
       <TouchableOpacity onPress={() => router.push('/play-view')}>
         <View
           style={{
-            marginTop: 10,
             height: 100,
+            marginTop: 10,
             borderRadius: 15,
             paddingVertical: 10,
             paddingHorizontal: 5,
@@ -49,7 +49,7 @@ export const CurrentSongBanner = () => {
             <ThemedText
               style={{ textAlign: 'center', fontSize: 14, marginBottom: 5 }}
             >
-              {trimmedFilename}
+              {trimmedtitle}
             </ThemedText>
 
             <FlexView style={{ flexDirection: 'row', gap: 15 }}>

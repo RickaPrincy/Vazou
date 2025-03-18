@@ -21,7 +21,7 @@ export const SongPlayer = () => {
         url: currentSong?.uri,
         artwork: currentSong?.artwork,
         artist: currentSong?.artist,
-        title: currentSong?.filename,
+        title: currentSong?.title,
       });
       await TrackPlayer.play();
       stopLoading();

@@ -1,10 +1,10 @@
 import { Song } from '@/stores';
 
-export const filterSongs = (filename: string, songs: Song[]) => {
-  if (!filename) {
+export const filterSongs = (title: string, songs: Song[]) => {
+  if (!title) {
     return songs;
   }
   return songs.filter(song =>
-    song.filename.toLowerCase().includes(filename.toLowerCase())
+    song.title.toLowerCase().includes(title.toLowerCase())
   );
 };

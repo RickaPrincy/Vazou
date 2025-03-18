@@ -17,7 +17,7 @@ export const songsProvider = configureCachedProvider<Song[]>({
         id: asset.id,
         uri: asset.uri,
         duration: asset.duration,
-        filename: asset.filename,
+        title: asset.title ?? asset.title,
         artist: asset?.artist,
         albumTitle: albumInfo?.title,
         artwork: asset?.artwork,
