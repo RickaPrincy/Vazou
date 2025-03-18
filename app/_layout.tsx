@@ -1,5 +1,6 @@
-import { Stack } from 'expo-router';
-import { View } from 'react-native';
+import { router, Stack } from 'expo-router';
+import { View, Linking } from 'react-native';
+import TrackPlayer from 'react-native-track-player';
 
 import {
   MediaMusicPermissionRequester,
@@ -7,12 +8,31 @@ import {
 } from '@/permissions';
 import { CacheRestorerWrapper, SongPlayer } from '@/components';
 import { SheetModal } from '@/components/sheet-modal';
+import { PlaybackService } from '@/services';
 import { useSetupTrackPlayer } from '@/permissions/hooks';
 import { usePalette } from '@/themes';
+import { useLayoutEffect } from 'react';
+
+TrackPlayer.registerPlaybackService(() => PlaybackService);
 
 const RootLayout = () => {
   const palette = usePalette();
   useSetupTrackPlayer();
+
+  useLayoutEffect(() => {
+    const handleDeepLink = (event: { url: string }) => {
+      const url = event.url;
+      if (url.includes('notification.click')) {
+        router.push('/play-view');
+      }
+    };
+
+    Linking.addEventListener('url', handleDeepLink);
+
+    return () => {
+      Linking.removeAllListeners('url');
+    };
+  }, [router]);
 
   return (
     <View

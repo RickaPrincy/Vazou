@@ -1,8 +1,7 @@
 import { View, Text } from 'react-native';
 import { Feather, Ionicons, AntDesign } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
-import TrackPlayer, { useProgress } from 'react-native-track-player';
-import debounce from 'debounce';
+import { useProgress } from 'react-native-track-player';
 
 import { Header } from '@/components/header';
 import { IconButton } from '@/components/buttons';
@@ -21,6 +20,7 @@ export const PlayMusicViewScreen = () => {
     next,
     prev,
     song: currentSong = {} as Song,
+    seekTo,
     random,
     toggleRandom,
   } = usePlayer();
@@ -29,21 +29,15 @@ export const PlayMusicViewScreen = () => {
     useFavoritesStore();
   const isFavorite = isInFavorites(currentSong!);
 
-  const seekTo = debounce((value: number) => {
-    if (currentSong) {
-      TrackPlayer.seekTo(value);
-    }
-  }, 50);
-
   return (
     <Screen>
       <Header title="Vazou Music" />
       <View style={{ flex: 1, marginTop: 50, alignItems: 'center' }}>
         <ImageArtWork
+          size={200}
           style={{ borderRadius: 100 }}
           imageStyle={{ borderRadius: 100 }}
           uri={currentSong?.artwork}
-          size={200}
         />
         <FlexView style={{ gap: 50, marginTop: 20 }}>
           <IconButton onPress={() => toggleFavorite(currentSong!)}>
@@ -94,12 +88,12 @@ export const PlayMusicViewScreen = () => {
           </ThemedText>
         </FlexView>
         <Slider
-          value={progress.position}
           minimumValue={0}
-          maximumValue={currentSong?.duration ?? 0}
           style={{ flex: 1, height: 40 }}
+          value={progress.position}
+          maximumValue={progress.duration || 1}
           thumbTintColor={palette.primary}
-          onSlidingComplete={seekTo}
+          onSlidingComplete={value => seekTo(value)}
           minimumTrackTintColor={palette.primary}
           maximumTrackTintColor={palette.secondary}
         />

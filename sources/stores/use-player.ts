@@ -4,6 +4,7 @@ import debounce from 'debounce';
 import { PlayList, Song } from './types';
 import { CLICK_BUTTON_DEBOUNCE_MS } from '@/utils/debounce';
 import { songsProvider } from '@/providers';
+import TrackPlayer from 'react-native-track-player';
 
 export type UseSongPlayer = {
   playing: boolean;
@@ -11,6 +12,7 @@ export type UseSongPlayer = {
   playlist: PlayList | null;
   random: boolean;
   setSong: (song: Song | null) => void;
+  seekTo: (value: number) => Promise<void>;
   setPlayList: (playlist: PlayList | null) => void;
   setCurrent: (args: { song: Song | null; playlist: PlayList | null }) => void;
   toggle: () => void;
@@ -116,5 +118,8 @@ export const usePlayer = create<UseSongPlayer>((set, get) => {
 
       set({ song: songs[currentIndex + 1], playing: true });
     }, CLICK_BUTTON_DEBOUNCE_MS),
+    seekTo: async (value: number) => {
+      await TrackPlayer.seekTo(value);
+    },
   };
 });
