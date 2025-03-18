@@ -1,14 +1,15 @@
-import { FC, useState } from 'react';
-import { Image, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { FC } from 'react';
+import { TouchableOpacity, View, ViewStyle } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 import { ThemedText } from '../themed-text';
 import { FlexView } from '../flex-view';
 import { IconButton } from '../buttons';
 import { PlayList, Song, usePlayer } from '@/stores';
-import { usePalette, useReversePalette } from '@/themes';
+import { usePalette } from '@/themes';
 import { trimFilename } from '@/utils/trim-filename';
 import { NOOP_FN } from '@/utils/noop-fn';
+import { ImageArtWork } from '../image-artwork';
 
 const PLAY_LIST_ITEM_STYLE: ViewStyle = {
   height: 80,
@@ -25,10 +26,16 @@ export const SongItem: FC<{
   playlist?: PlayList;
   canPlay?: boolean;
   style?: ViewStyle;
-}> = ({ song, playlist, style, onLongPress = NOOP_FN, canPlay = true }) => {
-  const [imageError, setImageError] = useState(false);
+  onPress?: (song: Song) => void;
+}> = ({
+  song,
+  playlist,
+  onPress = NOOP_FN,
+  style,
+  onLongPress = NOOP_FN,
+  canPlay = true,
+}) => {
   const palette = usePalette();
-  const reversePalette = useReversePalette();
   const {
     playlist: currentPlayList,
     setSong: setPlayingSong,
@@ -54,6 +61,7 @@ export const SongItem: FC<{
 
   return (
     <TouchableOpacity
+      onPress={() => onPress(song)}
       delayLongPress={100}
       onLongPress={() => onLongPress(song)}
     >
@@ -61,27 +69,7 @@ export const SongItem: FC<{
         style={[PLAY_LIST_ITEM_STYLE, { backgroundColor: palette.card }, style]}
       >
         <FlexView style={{ justifyContent: 'flex-start', gap: 20 }}>
-          {!imageError && song?.albumCoverUri ? (
-            <Image
-              source={{ uri: song.albumCoverUri }}
-              style={{ width: 50, height: 50, borderRadius: 8 }}
-              onError={() => setImageError(true)}
-            />
-          ) : (
-            <FlexView
-              style={{
-                borderRadius: 8,
-                padding: 10,
-                backgroundColor: reversePalette.background,
-              }}
-            >
-              <Feather
-                name="music"
-                color={palette.primary}
-                style={{ fontSize: 24 }}
-              />
-            </FlexView>
-          )}
+          <ImageArtWork uri={song.artwork} />
           <View>
             <ThemedText
               style={{
@@ -98,7 +86,7 @@ export const SongItem: FC<{
                 fontSize: 14,
               }}
             >
-              Artist: {trimFilename(song.artist ?? '', 22)}
+              Artist: {trimFilename(song.artist ?? '', 18)}
             </ThemedText>
           </View>
         </FlexView>

@@ -5,7 +5,7 @@ export type Song = {
   filename: string;
   artist?: string;
   albumTitle?: string;
-  albumCoverUri?: string;
+  artwork?: string;
 };
 
 export type PlayList = {

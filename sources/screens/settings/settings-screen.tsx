@@ -55,6 +55,11 @@ export const SettingsScreen = () => {
   return (
     <Screen>
       <ScrollView>
+        <ThemedText
+          style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}
+        >
+          Settings
+        </ThemedText>
         <SettingsSection title="Appearance">
           <SettingsItem
             icon={<Feather name="moon" size={24} color={palette.primary} />}

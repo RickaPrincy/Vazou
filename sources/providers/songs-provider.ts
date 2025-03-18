@@ -20,7 +20,7 @@ export const songsProvider = configureCachedProvider<Song[]>({
         filename: asset.filename,
         artist: asset?.artist,
         albumTitle: albumInfo?.title,
-        albumCoverUri: asset?.artwork,
+        artwork: asset?.artwork,
       };
     });
   },

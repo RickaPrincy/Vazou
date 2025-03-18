@@ -4,12 +4,11 @@ import { ThemedText } from '@/components';
 import { useRouter } from 'expo-router';
 
 import { PlayList } from '@/stores';
-import { usePalette, useReversePalette } from '@/themes';
+import { usePalette } from '@/themes';
 import { createStyle } from '@/utils/styles';
 
 export const PlayLitsItem = ({ playlist }: { playlist: PlayList }) => {
   const palette = usePalette();
-  const reversePalette = useReversePalette();
   const router = useRouter();
 
   const handlePress = () => {
@@ -21,7 +20,7 @@ export const PlayLitsItem = ({ playlist }: { playlist: PlayList }) => {
       onPress={handlePress}
       style={[
         styles.container,
-        { backgroundColor: playlist.color || palette.secondary },
+        { backgroundColor: playlist.color || palette.card },
       ]}
     >
       {playlist.imageUri ? (
@@ -33,15 +32,15 @@ export const PlayLitsItem = ({ playlist }: { playlist: PlayList }) => {
       )}
 
       <View style={styles.textContainer}>
-        <ThemedText style={[styles.title, { color: reversePalette.text }]}>
+        <ThemedText style={[styles.title, { color: palette.text }]}>
           {playlist.name}
         </ThemedText>
-        <ThemedText style={[styles.subtitle, { color: reversePalette.text }]}>
+        <ThemedText style={[styles.subtitle, { color: palette.text }]}>
           {playlist.songs.length} songs
         </ThemedText>
       </View>
 
-      <Feather name="arrow-right" size={24} color={reversePalette.text} />
+      <Feather name="arrow-right" size={24} color={palette.text} />
     </TouchableOpacity>
   );
 };

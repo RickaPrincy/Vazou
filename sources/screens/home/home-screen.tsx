@@ -14,7 +14,7 @@ import { SongList } from '@/components/song-list';
 import { useStateFetcher } from '@/hooks';
 import { songsProvider } from '@/providers';
 import { usePalette } from '@/themes';
-import { useConfigStore, useSearchSongStore } from '@/stores';
+import { useConfigStore, usePlayer, useSearchSongStore } from '@/stores';
 import { filterSongs } from '@/utils/filter-songs';
 import { homeScreenStyles as styles } from './styles';
 import { NOOP_FN } from '@/utils/noop-fn';
@@ -22,6 +22,7 @@ import { NOOP_FN } from '@/utils/noop-fn';
 export const HomeScreen = () => {
   const palette = usePalette();
   const user = useConfigStore(state => state.user);
+  const setSong = usePlayer(state => state.setSong);
   const { setValue: setSearchSongValue, value: searchSongValue } =
     useSearchSongStore();
 
@@ -97,7 +98,7 @@ export const HomeScreen = () => {
           </IconButton>
         )}
       </FlexView>
-      <SongList songs={filteredSongs} />
+      <SongList canPlay onPress={song => setSong(song)} songs={filteredSongs} />
     </Screen>
   );
 };

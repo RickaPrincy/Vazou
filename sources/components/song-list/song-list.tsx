@@ -17,6 +17,7 @@ export type SongListProps = {
   selecteds?: Song[];
   onLongPress?: (song: Song) => void;
   onToggleSelected?: (song: Song) => void;
+  onPress?: (song: Song) => void;
 };
 
 export const SongList: FC<SongListProps> = ({
@@ -26,6 +27,7 @@ export const SongList: FC<SongListProps> = ({
   selecteds,
   onLongPress,
   onToggleSelected,
+  onPress,
 }) => {
   const palette = usePalette();
   return (
@@ -44,6 +46,7 @@ export const SongList: FC<SongListProps> = ({
           if (!selecteds || !onToggleSelected) {
             return (
               <SongItem
+                onPress={onPress}
                 song={song}
                 key={song.id}
                 canPlay={canPlay}

@@ -1,13 +1,14 @@
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
+import { ImageArtWork } from '../image-artwork';
 import { FlexView } from '../flex-view';
 import { IconButton } from '../buttons';
 import { ThemedText } from '../themed-text';
 import { usePalette } from '@/themes';
 import { trimFilename } from '@/utils/trim-filename';
 import { usePlayer } from '@/stores';
-import { router } from 'expo-router';
 
 export const CurrentSongBanner = () => {
   const palette = usePalette();
@@ -24,7 +25,7 @@ export const CurrentSongBanner = () => {
     return null;
   }
 
-  const trimmedFilename = trimFilename(currentSong.filename, 40);
+  const trimmedFilename = trimFilename(currentSong.filename, 25);
 
   return (
     <>
@@ -41,36 +42,7 @@ export const CurrentSongBanner = () => {
             alignItems: 'center',
           }}
         >
-          {currentSong.albumCoverUri ? (
-            <Image
-              source={{ uri: currentSong.albumCoverUri }}
-              style={{
-                width: 60,
-                height: 60,
-                borderRadius: 8,
-                marginRight: 10,
-              }}
-            />
-          ) : (
-            <FlexView
-              style={{
-                borderRadius: 8,
-                padding: 10,
-                backgroundColor: palette.background,
-                marginRight: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: 60,
-                height: 60,
-              }}
-            >
-              <Feather
-                name="music"
-                color={palette.primary}
-                style={{ fontSize: 24 }}
-              />
-            </FlexView>
-          )}
+          <ImageArtWork uri={currentSong.artwork} />
           <FlexView
             style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}
           >

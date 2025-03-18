@@ -9,6 +9,7 @@ export type UseSongPlayer = {
   playing: boolean;
   song: Song | null;
   playlist: PlayList | null;
+  random: boolean;
   setSong: (song: Song | null) => void;
   setPlayList: (playlist: PlayList | null) => void;
   setCurrent: (args: { song: Song | null; playlist: PlayList | null }) => void;
@@ -18,9 +19,9 @@ export type UseSongPlayer = {
   play: () => void;
   next: () => void;
   prev: () => void;
+  toggleRandom: () => void;
 };
 
-// DEBOUNCED SONG PLAYER
 export const usePlayer = create<UseSongPlayer>((set, get) => {
   const getSongs = async () => {
     const { playlist } = get();
@@ -32,10 +33,22 @@ export const usePlayer = create<UseSongPlayer>((set, get) => {
     return song ? songs.findIndex(s => s.id === song.id) : -1;
   };
 
+  const getRandomSong = (songs: Song[], excludeIndex: number) => {
+    if (songs.length <= 1) return songs[0];
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * songs.length);
+    } while (randomIndex === excludeIndex);
+    return songs[randomIndex];
+  };
+
   return {
     playing: false,
     song: null,
     playlist: null,
+    random: false,
+
+    toggleRandom: () => set(state => ({ random: !state.random })),
 
     play: debounce(() => set({ playing: true }), CLICK_BUTTON_DEBOUNCE_MS),
     pause: debounce(() => set({ playing: false }), CLICK_BUTTON_DEBOUNCE_MS),
@@ -66,6 +79,14 @@ export const usePlayer = create<UseSongPlayer>((set, get) => {
     prev: debounce(async () => {
       const songs = await getSongs();
       const currentIndex = getCurrentIndex(songs);
+      const { random } = get();
+
+      if (random) {
+        const randomSong = getRandomSong(songs, currentIndex);
+        set({ song: randomSong, playing: true });
+        return;
+      }
+
       if (currentIndex <= 0) return;
 
       set({ song: songs[currentIndex - 1], playing: true });
@@ -74,6 +95,14 @@ export const usePlayer = create<UseSongPlayer>((set, get) => {
     next: debounce(async () => {
       const songs = await getSongs();
       const currentIndex = getCurrentIndex(songs);
+      const { random } = get();
+
+      if (random) {
+        const randomSong = getRandomSong(songs, currentIndex);
+        set({ song: randomSong, playing: true });
+        return;
+      }
+
       if (currentIndex < 0 || currentIndex >= songs.length - 1) return;
 
       set({ song: songs[currentIndex + 1], playing: true });

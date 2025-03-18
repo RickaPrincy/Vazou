@@ -19,7 +19,7 @@ export const SongPlayer = () => {
 
       await TrackPlayer.load({
         url: currentSong?.uri,
-        artwork: currentSong?.albumCoverUri,
+        artwork: currentSong?.artwork,
         artist: currentSong?.artist,
         title: currentSong?.filename,
       });

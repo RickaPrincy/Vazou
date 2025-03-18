@@ -3,3 +3,4 @@ export * from './screen';
 export * from './cache-restorer-wrapper';
 export * from './themed-text';
 export * from './flex-view';
+export * from './image-artwork';

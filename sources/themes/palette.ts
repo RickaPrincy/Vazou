@@ -5,7 +5,7 @@ export const PALETTE_COLORS = {
     border: '#e1e1e1',
     primary: '#b81c6c', //default
     secondary: '#5b5c5c',
-    card: '#fcfcfc',
+    card: '#d2d4d2',
   },
   dark: {
     text: '#ECEDEE',

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { View, ViewStyle } from 'react-native';
+import { TextStyle, View, ViewStyle } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
@@ -14,7 +14,12 @@ const HEADER_STYLE: ViewStyle = {
   paddingHorizontal: 20,
 };
 
-export const Header: FC<{ title: string }> = ({ title }) => {
+export const Header: FC<{
+  headerStyle?: ViewStyle;
+  showLeft?: boolean;
+  title: string;
+  titleStyle?: TextStyle;
+}> = ({ title, titleStyle = {}, headerStyle = {}, showLeft = true }) => {
   const palette = usePalette();
   const router = useRouter();
 
@@ -26,6 +31,7 @@ export const Header: FC<{ title: string }> = ({ title }) => {
           borderBottomColor: palette.border,
           backgroundColor: palette.background,
         },
+        headerStyle,
       ]}
     >
       {router.canGoBack() ? (
@@ -36,12 +42,15 @@ export const Header: FC<{ title: string }> = ({ title }) => {
             style={{ fontSize: 25 }}
           />
         </IconButton>
-      ) : (
+      ) : showLeft ? (
         <View style={{ width: 10 }} />
-      )}
+      ) : null}
 
       <ThemedText
-        style={{ fontSize: 16, fontWeight: 'bold', color: palette.text }}
+        style={[
+          { fontSize: 20, fontWeight: 'bold', color: palette.text },
+          titleStyle,
+        ]}
       >
         {title}
       </ThemedText>

@@ -51,8 +51,10 @@ export const SheetModal = () => {
       style={[
         {
           flex: 1,
+          position: 'absolute',
+          bottom: 0,
           width: '100%',
-          height: screenHeight,
+          height: '100%',
           justifyContent: 'center',
           backgroundColor: '#00000050',
         },

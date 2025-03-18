@@ -4,9 +4,9 @@ import { Feather } from '@expo/vector-icons';
 import { FlexView, Screen, ThemedText } from '@/components';
 import { IconButton } from '@/components/buttons';
 import { PlayLitsItem } from './components';
+import { CreatePlayListModal } from './create-playlist-modal';
 import { usePlayListStore, useSheetModal } from '@/stores';
 import { usePalette } from '@/themes';
-import { CreatePlayListModal } from './create-playlist-modal';
 
 export const PlayListScreen = () => {
   const palette = usePalette();
