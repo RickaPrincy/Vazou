@@ -9,7 +9,7 @@ import { FlexView, ImageArtWork, Screen, ThemedText } from '@/components';
 import { Song, usePlayer } from '@/stores';
 import { usePalette } from '@/themes';
 import { trimText } from '@/utils/trim-text';
-import { useFavouritesStore } from '@/stores';
+import { useFavoritesStore } from '@/stores';
 import { formatDuration } from '@/utils/format-duration';
 import debounce from 'debounce';
 
@@ -25,9 +25,9 @@ export const PlayMusicViewScreen = () => {
     toggleRandom,
   } = usePlayer();
   const progress = useProgress();
-  const { isFavourite: isInFavourites, toggle: toggleFavorite } =
-    useFavouritesStore();
-  const isFavorite = isInFavourites(currentSong!);
+  const { isFavourite: isInFavorites, toggle: toggleFavorite } =
+    useFavoritesStore();
+  const isFavorite = isInFavorites(currentSong!);
 
   const seekTo = debounce((value: number) => {
     if (currentSong) {

@@ -4,4 +4,4 @@ export * from './use-player';
 export * from './types';
 export * from './use-search-song-store';
 export * from './use-sheet-modal-store';
-export * from './use-favourites-store';
+export * from './use-favorites-store';

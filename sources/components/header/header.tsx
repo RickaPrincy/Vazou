@@ -12,6 +12,7 @@ const HEADER_STYLE: ViewStyle = {
   flexDirection: 'row',
   justifyContent: 'space-between',
   paddingHorizontal: 20,
+  marginBottom: 20,
 };
 
 export const Header: FC<{

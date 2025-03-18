@@ -66,10 +66,19 @@ export const usePlayer = create<UseSongPlayer>((set, get) => {
       CLICK_BUTTON_DEBOUNCE_MS
     ),
 
-    setPlayList: debounce(
-      playlist => set({ playlist, song: playlist.songs[0] ?? null }),
-      CLICK_BUTTON_DEBOUNCE_MS
-    ),
+    setPlayList: debounce(async (playlist: PlayList | null) => {
+      set({ playlist });
+
+      if (playlist && get().random) {
+        const randomSong = getRandomSong(playlist.songs, -1);
+        set({ song: randomSong, playing: true });
+      } else {
+        set({
+          song: playlist?.songs[0] ?? null,
+          playing: (playlist?.songs.length ?? 0) > 0 ? true : false,
+        });
+      }
+    }, CLICK_BUTTON_DEBOUNCE_MS),
 
     setCurrent: debounce(
       ({ song, playlist }) => set({ playing: true, song, playlist }),

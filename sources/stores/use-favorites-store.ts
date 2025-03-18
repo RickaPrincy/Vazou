@@ -3,13 +3,13 @@ import { Song } from './types';
 import { createPersistedStore } from './utils';
 import { CLICK_BUTTON_DEBOUNCE_MS } from '@/utils/debounce';
 
-export type UseFavouritesStore = {
+export type UseFavoritesStore = {
   songs: Song[];
   toggle: (song: Song) => void;
   isFavourite: (song: Song) => boolean;
 };
 
-export const useFavouritesStore = createPersistedStore<UseFavouritesStore>({
+export const useFavoritesStore = createPersistedStore<UseFavoritesStore>({
   name: 'FAVOURITES-STORE',
   state: (set, get) => ({
     songs: [],
